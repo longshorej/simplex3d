@@ -62,7 +62,7 @@ val w: ConstVec2 = 3*(u.xy + v.zw) //implicit conversion from Vec2 to ConstVec2
 
 Due to the language constrains, writing into matrix using array notation is different. This will be fixed with a compiler plugin. Example:
 {{{
-val m = Mat3()
+val m = Mat3(1)
 m(0)(0) = 2 //compile time error
 m(0, 0) = 2 //works
 }}}
@@ -113,7 +113,7 @@ println(u !~ v) //prints true
 In GLSL to use matrix multiplication for transforming 3 dimensional vectors you have to use a 4x4 matrix and extend the vec3 to vec4 by setting w to 1. Example:
 {{{
 // Cumbersome transform
-val tranformMatrix = Mat4()
+val tranformMatrix = Mat4(1)
 val have = Vec3(10)
 val need = Vec4(have, 1)
 val tranformed = (transformMatrix*need).xyz
@@ -122,7 +122,7 @@ val tranformed = (transformMatrix*need).xyz
 This procedure is rather cumbersome. So to make it easier to use matrices that store translation as a last column to transform vectors, a transform() method was introduced.
 {{{
 // Simple transform
-val tranformMatrix = Mat3x4()
+val tranformMatrix = Mat3x4(1)
 val have = Vec3(10)
 val tranformed = transformMatrix.transform(have)
 }}}
