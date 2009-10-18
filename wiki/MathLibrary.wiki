@@ -98,7 +98,7 @@ A method `isValid` is added to every type. A vector (or a matrix) is considered 
 
 == Approximation ==
 
-Due to a floating point arithmetics, the values are not always exact. To help compare computed vectors to the predefined ones an approximate comparision operator was introduced.
+Due to a floating point arithmetics, the values are not always exact. To help compare computed vectors to the predefined ones an approximate comparision operator was introduced. To test for approximate equality, the difference between values is compared to VecMath.ApproximationDelta = 0.00001f. This value should be suitable for most cases but it may not always work, so you may have to inline your own approximation code.
 {{{
 val u = Vec4(1)
 val v = Vec4(1.000001)
