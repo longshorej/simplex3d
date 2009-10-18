@@ -99,6 +99,17 @@ m(0)(0) = 2 //compile time error
 m(0, 0) = 2 //works
 }}}
 
+== Matrix constructors ==
+
+Matrix constructors accept any mix of floats and vectors, just like in GLSL. If the total number of floats extracted from arguments does not add up to the matrix size, you get an error. With GLSL you get a compile time error. However with current mathlib implementation you will get a runtime error instead. This will be fixed with the compiler plugin.
+Example:
+{{{
+val w = Mat3(1, 2, Vec2(3, 4), Vec4(5, 6, 7, 8), 9) //works
+val c = Mat2(1, new Object(), 2, 3) //compile time error
+val m = Mat2x3(Vec4(1), Vec4(2), Vec4(3)) //runtime error - too many floats in arguments
+val f = Mat4(1, 2, 3, 4) //runtime error - too few floats in arguments
+}}}
+
 == Modf ==
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
 
@@ -142,7 +153,7 @@ println(u !~ v) //prints true
 
 == Transformation matrix ==
 
-In GLSL to use matrix multiplication for transforming 3 dimensional vectors you have to use a 4x4 matrix and extend the vec3 to vec4 by setting w to 0. Example:
+Using matrix multiplication for vector transformation in GLSL is not suitable for general purpose library. This is because you have to use a 4x4 matrix and extend your vec3 to vec4 by setting w to 0, then multiple and cast back to vec3. Example:
 {{{
 // Cumbersome transform
 val tranformMatrix = Mat4(1)
@@ -151,7 +162,7 @@ val need = Vec4(have, 0)
 val tranformed = (transformMatrix*need).xyz
 }}}
 
-This procedure is rather cumbersome. So to make it easier to use matrices that store translation as a last column to transform vectors, a transform() method was introduced.
+As noted, this procedure is rather cumbersome. So to make it easier to use matrices that store translation as a last column to transform vectors, a transform() method was introduced.
 {{{
 // Simple transform
 val tranformMatrix = Mat3x4(1)
