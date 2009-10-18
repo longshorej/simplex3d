@@ -88,7 +88,7 @@ Scala has a rather nasty way of casting with `asInstanceOf[Type]`. To make thing
 
 Examples:
 {{{
-val a = float(java.lang.Math.PI) //this is just an example, there is already Pi defined in VecMath
+val a = float(java.lang.Math.PI) //this is just an example, there is a constant Pi defined in VecMath
 val b = int(sin(Pi/2)*100)
 }}}
 
