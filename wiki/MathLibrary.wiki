@@ -1,0 +1,148 @@
+#summary Math library and GLSL
+#labels Featured
+
+= General =
+
+The library mimics GLSL so it is easy to use. The downside is slow performance which will be remedied with a compiler plugin. Given the possibilities of optimization with the plugin, it is possible to have a very easy to use library that run faster than anything written in pure java.
+
+Additional benefit of mimicing GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
+
+-----
+
+= Overview =
+
+Most of the GLSL features are supported. See the following sections for differences, missing features and extras.
+
+Examples:
+{{{
+//TODO
+}}}
+
+-----
+
+= Differences with GLSL =
+
+Aside from obvious differences, such as Scala variable declaration and function signatures, there are a couple of small quirks you should be aware of.
+
+== Type declarations ==
+
+To stay consistent with Scala object naming conversions, the type names are distinct from GLSL.
+
+Vectors examples:
+|| *GLSL* || *Simplex3d* ||
+|| vec2 || Vec2 ||
+|| ivec2 || Vec2i ||
+|| bvec2 || Vec2b ||
+
+Matrix examples:
+|| *GLSL* || *Simplex3d* ||
+|| mat2 || Mat2 ||
+|| mat2x2 || _notation is unsupported until Scala 2.8_ ||
+|| mat2x3 || Mat2x3 ||
+
+If desired, you can change type declarations to be exactly the same as in GLSL using Scala imports. For example:
+{{{
+import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
+}}}
+
+== Constants ==
+
+Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. Examples:
+{{{
+val u = ConstVec3(1, 2, 3)
+u.x = 10 //compile time error
+
+var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
+v -= Vec4(0.5f) //works, because v is var
+
+val w: ConstVec2 = 3*(u.xy + v.zw) //implicit conversion from Vec2 to ConstVec2
+}}}
+
+== Matrix as multidimensional array ==
+
+Due to the language constrains, writing into matrix using array notation is different. This will be fixed with a compiler plugin. Example:
+{{{
+val m = Mat3()
+m(0)(0) = 2 //compile time error
+m(0, 0) = 2 //works
+}}}
+
+== Modf ==
+`modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
+
+-----
+
+= Extras =
+
+There are some extras not present in GLSL.
+
+== Cast ==
+
+Scala has a rather nasty way of casting with `asInstanceOf[Type]`. To make things more readable and stay within the spirit of GLSL it is recommended to use these casts:
+  * int(x: Long)
+  * int(x: Float)
+  * int(x: Double)
+  * long(x: Float)
+  * long(x: Double)
+  * float(x: Double)
+
+Examples:
+{{{
+val a = float(java.lang.Math.PI) //this is just an example, there is already Pi defined in VecMath
+val b = int(sin(Pi/2)*100)
+}}}
+
+== Debugging ==
+
+A method `isValid` is added to every type. A vector (or a matrix) is considered to be valid if none of it's fields are NaN or Inf.
+
+== Approximation ==
+
+Due to a floating point arithmetics, the values are not always exact. To help compare computed vectors to the predefined ones an approximate comparision operator was introduced.
+{{{
+val u = Vec4(1)
+val v = Vec4(1.0001)
+println(u ~= v) //prints true
+VecMath.ApproximationDelta = 0.001 //change allowed approximation
+println(u ~= v) //prints false
+println(u !~ v) //prints true
+}}}
+
+== Tranformation matrix ==
+
+In GLSL to use matrix multiplication for transforming 3 dimensional vectors you have to use a 4x4 matrix and extend the vec3 to vec4 by setting w to 1. Example:
+{{{
+// Cumbersome transform
+val tranformMatrix = Mat4()
+val have = Vec3(10)
+val need = Vec4(have, 1)
+val tranformed = (transformMatrix*need).xyz
+}}}
+
+This procedure is rather cumbersome. So to make it easier to use matrices that store translation as a last column to transform vectors, a transform() method was introduced.
+{{{
+// Simple transform
+val tranformMatrix = Mat3x4()
+val have = Vec3(10)
+val tranformed = transformMatrix.transform(have)
+}}}
+
+== Misc additions ==
+A couple of small additions are:
+  * `lengthSquare` method if you want to avoid using square root
+  * Extended random, capable of generating random float, int and boolean vectors
+
+-----
+
+= Planned =
+The following features are planned but not yet implemented:
+  * Quaternions
+  * Various methods to compute rotation
+  * Support for double vectors and matrices
+  * Compiler plugin!
+
+_The development of the compiler plugin will not start until Scala 2.8 release due to compiler architecture changes._
+
+= Feedback =
+
+Any feedback regarding code correctness and optimization is welcomed. However keep in mind that the aim of the library is to stay as close to GLSL as possible, things that are astray from this path are unlikely to be implemented.
