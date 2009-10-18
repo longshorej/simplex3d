@@ -15,7 +15,39 @@ Most of the GLSL features are supported. See the following sections for differen
 
 Examples:
 {{{
-//TODO
+//Factories
+var u = Vec2(1)
+var v = Vec4(1, 2, 3, 4)
+v = Vec4(u, 5, 6)
+
+val m = Mat4x3(1)
+val n = Mat4(v, v, v, v)
+
+//Accessors
+v.x = 10
+v.z = u.x
+
+m(0) = v
+m(0, 3) = 4
+
+//Swizzling
+val a = v.xyz
+val b = v.wxz
+val c = v.rgb
+val d = v.stpq
+
+v.xz = Vec2(0)
+v.ra = v.wy
+
+//Arithmetic operations on vectors
+val s = v.xyz + Vec3(1, 2, 3)
+s *= 10
+val t = 0.5f*(s + v)
+
+//Matrix multiplication
+//All of the GLSL mathematical functions that have valid signatures in Scala
+//Mutable and immutable vector and matrix types
+//Noise functions backed by simplex noise implementation
 }}}
 
 -----
