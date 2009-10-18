@@ -1,11 +1,11 @@
-#summary Math library and GLSL
+#summary Overview, Examples and Comparison to GLSL
 #labels Featured
 
 = General =
 
-The library mimics GLSL so it is easy to use. The downside is slow performance which will be remedied with a compiler plugin. Given the possibilities of optimization with the plugin, it is possible to have a very easy to use library that run faster than anything written in pure java.
+The library mimics GLSL so it is easy to use. The downside is slow performance which will be remedied with a compiler plugin. Given the possibilities of optimization with the plugin, it is possible to have a very easy to use library that run faster than anything written in pure Java.
 
-Additional benefit of mimicing GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
+Additional benefit of mimicking GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
 
 -----
 
@@ -108,7 +108,7 @@ println(u ~= v) //prints false
 println(u !~ v) //prints true
 }}}
 
-== Tranformation matrix ==
+== Transformation matrix ==
 
 In GLSL to use matrix multiplication for transforming 3 dimensional vectors you have to use a 4x4 matrix and extend the vec3 to vec4 by setting w to 1. Example:
 {{{
