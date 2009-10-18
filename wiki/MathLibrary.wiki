@@ -101,9 +101,9 @@ A method `isValid` is added to every type. A vector (or a matrix) is considered 
 Due to a floating point arithmetics, the values are not always exact. To help compare computed vectors to the predefined ones an approximate comparision operator was introduced.
 {{{
 val u = Vec4(1)
-val v = Vec4(1.0001)
+val v = Vec4(1.000001)
 println(u ~= v) //prints true
-VecMath.ApproximationDelta = 0.001 //change allowed approximation
+v := Vec4(1.0001) // := operator sets the values rather than reassigning the reference
 println(u ~= v) //prints false
 println(u !~ v) //prints true
 }}}
@@ -129,6 +129,7 @@ val tranformed = transformMatrix.transform(have)
 
 == Misc additions ==
 A couple of small additions are:
+  * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
   * Extended random, capable of generating random float, int and boolean vectors
 
