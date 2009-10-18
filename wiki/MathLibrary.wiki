@@ -74,7 +74,7 @@ m(0, 0) = 2 //works
 
 = Extras =
 
-There are some extras not present in GLSL.
+There are some extras not present in GLSL or in Scala.
 
 == Cast ==
 
@@ -110,12 +110,12 @@ println(u !~ v) //prints true
 
 == Transformation matrix ==
 
-In GLSL to use matrix multiplication for transforming 3 dimensional vectors you have to use a 4x4 matrix and extend the vec3 to vec4 by setting w to 1. Example:
+In GLSL to use matrix multiplication for transforming 3 dimensional vectors you have to use a 4x4 matrix and extend the vec3 to vec4 by setting w to 0. Example:
 {{{
 // Cumbersome transform
 val tranformMatrix = Mat4(1)
 val have = Vec3(10)
-val need = Vec4(have, 1)
+val need = Vec4(have, 0)
 val tranformed = (transformMatrix*need).xyz
 }}}
 
