@@ -9,11 +9,18 @@ Additional benefit of mimicking GLSL is that you can recycle your GLSL skills us
 
 -----
 
-= Overview =
+= Getting started =
 
-Most of the GLSL features are supported. See the following sections for differences, missing features and extras.
+Download simplex3dMath.jar and add it to your classpath. In your scala file, use the following imports:
+
+{{{
+import simplex3d.math._ //all the vectors and matrix classes
+import simplex3d.math.VecMath._ //all the functions
+import simplex3d.math.ExtendedMath._ //color conversion
+}}}
 
 Examples:
+
 {{{
 //Factories
 var u = Vec2(1)
@@ -49,6 +56,8 @@ val t = 0.5f*(s + v)
 //Mutable and immutable vector and matrix types
 //Noise functions backed by simplex noise implementation
 }}}
+
+Most of the GLSL features are supported. See the following sections for differences, missing features and extras.
 
 -----
 
