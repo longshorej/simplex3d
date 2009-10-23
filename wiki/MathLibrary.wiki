@@ -144,41 +144,6 @@ val a = float(java.lang.Math.PI) //this is just an example, there is a constant 
 val b = int(sin(Pi/2)*100)
 }}}
 
-== Debugging ==
-
-A method `isValid` is added to every type. A vector (or a matrix) is considered to be valid if none of it's fields are NaN or Inf.
-
-== Approximation ==
-
-Due to a floating point arithmetics, the values are not always exact. To help compare computed vectors to the predefined ones an approximate comparision operator was introduced. To test for approximate equality, the difference between values is compared to VecMath.ApproximationDelta = 0.00001f. This value should be suitable for most cases but it may not always work, so you may have to inline your own approximation code.
-{{{
-val u = Vec4(1)
-val v = Vec4(1.000001)
-println(u ~= v) //prints true
-v := Vec4(1.0001) // := operator sets the values rather than reassigning the reference
-println(u ~= v) //prints false
-println(u !~ v) //prints true
-}}}
-
-== Transformation matrix ==
-
-Using matrix multiplication for vector transformation in GLSL is not suitable for general purpose library. This is because you have to use a 4x4 matrix and extend your vec3 to vec4 by setting w to 0, then multiple and cast back to vec3. Example:
-{{{
-// Cumbersome transform
-val tranformMatrix = Mat4(1)
-val have = Vec3(10)
-val need = Vec4(have, 0)
-val tranformed = (transformMatrix*need).xyz
-}}}
-
-As noted, this procedure is rather cumbersome. So to make it easier to use matrices that store translation as a last column to transform vectors, a transform() method was introduced.
-{{{
-// Simple transform
-val tranformMatrix = Mat3x4(1)
-val have = Vec3(10)
-val tranformed = transformMatrix.transform(have)
-}}}
-
 == Other additions ==
 
 Some other additions are:
