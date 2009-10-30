@@ -15,8 +15,8 @@ Download simplex3dMath.jar and add it to your classpath. In your scala file, use
 
 {{{
 import simplex3d.math._ //all the vectors and matrix classes
-import simplex3d.math.VecMath._ //all the functions
-import simplex3d.math.ExtendedMath._ //color conversion
+import simplex3d.math.VecMath._ //all GLSL functions
+import simplex3d.math.ExtendedMath._ //all extra functions
 }}}
 
 Examples:
@@ -55,6 +55,15 @@ val t = 0.5f*(s + v)
 //All of the GLSL mathematical functions that have valid signatures in Scala
 //Mutable and immutable vector and matrix types
 //Noise functions backed by simplex noise implementation
+
+//`approxEqual` to compare floating point numbers, vectors and matrices
+//Extended random, capable of generating random float, int and boolean vectors
+//Quaternions and angle/axis rotations
+//`lerp` for matrices and `slerp` for quaternions
+//Projection matrices
+//2x3 and 3x4 matrices as transformations
+//Flexible way to build transformations
+//Matrix inverse
 }}}
 
 Most of the GLSL features are supported. See the following sections for differences, missing features and extras.
@@ -150,14 +159,18 @@ Some other additions are:
   * Color conversion from Vec3i, Vec3, Vec4i and Vec4 to rgb, rgba, argb, bgr, abgr, bgra
   * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
+  * `approxEqual` to compare floating point numbers, vectors and matrices
   * Extended random, capable of generating random float, int and boolean vectors
-
+  * Quaternions and angle/axis rotations
+  * `lerp` for matrices and `slerp` for quaternions
+  * Projection matrices
+  * 2x3 and 3x4 matrices as transformations
+  * Flexible way to build transformations
+  * Matrix inverse
 -----
 
 = Planned =
 The following features are planned but not yet implemented:
-  * Quaternions
-  * Various methods to compute rotation
   * Support for double vectors and matrices
   * Compiler plugin!
 
