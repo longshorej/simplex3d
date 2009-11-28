@@ -156,7 +156,6 @@ val b = int(sin(Pi/2)*100)
 == Other additions ==
 
 Some other additions are:
-  * Color conversion from Vec3i, Vec3, Vec4i and Vec4 to rgb, rgba, argb, bgr, abgr, bgra
   * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
   * `approxEqual` to compare floating point numbers, vectors and matrices
