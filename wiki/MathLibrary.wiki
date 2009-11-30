@@ -173,8 +173,6 @@ The following features are planned but not yet implemented:
   * Support for double vectors and matrices
   * Compiler plugin!
 
-_The development of the compiler plugin will not start until Scala 2.8 release due to compiler architecture changes._
-
 = Feedback =
 
 Any feedback regarding code correctness and optimization is welcomed. However keep in mind that the aim of the library is to stay as close to GLSL as possible, things that are astray from this path are unlikely to be implemented.
