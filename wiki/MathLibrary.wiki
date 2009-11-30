@@ -102,11 +102,39 @@ def mat2 = Mat2(vec2, vec2)
 println(mat2*vec2)
 
 //Quaternions and angle/axis rotations
+val q1 = quatFrom(radians(30), Vec3.UnitX)
+val q2 = quatFrom(radians(45), Vec3.UnitY)
+val q = q2*q1 // first rotaty by q1 then by q2
+val v = q*Vec3(1, 1, 1) //rotate Vec3(1, 1, 1) by q
+
 //`lerp` for matrices and `slerp` for quaternions
+val interpolatedMat = lerp(m0, m1, 0.4f)
+val q3 = slerp(q1, q2, 0.8f)
+
 //Projection matrices for setting 3d camera
+val camPerspective = perspective(fieldOfView, aspectRatio, near, far)
+val camOrtho = ortho(left, right, bottom, top, near, far)
+
 //2x3 and 3x4 matrices as transformations
+val tf = Mat3x4(1)
+val position = tf.transofrmPoint(v)
+val orientation = tf.transofrmVector(u)
+
 //Flexible way to build transformations
+// Template: Transform(translation, rotation, scale)
+// Template: Transform(translation, rotation)
+// Template: Transform(rotation, scale)
+val model = Transform(Vec3(0, 1, 0), radians(60), Vec3.UnitY, 2) //model: Mat3x4
+val view = InverseTransform(cam.translation, cam.rotation, cam.scale) //view: Mat3x4
+val modelView = view*model // modelView: Mat3x4
+
+val complicated = Translation(u)*Scale(s1)*Rotation(q1)*Scale(s2)*Translation(v)
+// first p is translated by v, then scaled by s2, then rotated by q1,
+// then scaled by s1 and finally translated by u
+val p = complicated.transformPoint(p)
+
 //Matrix inverse
+val inv = inverse(tf)
 }}}
 
 Most of the GLSL features are supported. See the following sections for differences, missing features and extras.
