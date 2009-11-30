@@ -83,14 +83,14 @@ res = trunc(v)
 res = round(v)
 res = ceil(v)
 res = fract(v)
-val bothMin = min(u, v)
+val allmin = min(u, v)
 val c = clamp(v, minVal, maxVal)
 
 //Noise functions backed by simplex noise implementation
-noise1(v)
-noise2(v)
-noise3(v)
-noise4(v)
+val n1 = noise1(v) //n1: Float
+val n2 = noise2(v) //n2: Vec2
+val n3 = noise3(v) //n3: Vec3
+val n4 = noise4(v) //n4: Vec4
 
 //`approxEqual` to compare floating point numbers, vectors and matrices
 if (approxEqual(u, v, 0.0001f)) println("approx")
