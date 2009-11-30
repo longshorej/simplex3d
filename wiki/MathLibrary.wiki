@@ -125,6 +125,7 @@ val orientation = tf.transofrmVector(u)
 // Template: Transform(translation, rotation)
 // Template: Transform(rotation, scale)
 val model = Transform(Vec3(0, 1, 0), radians(60), Vec3.UnitY, 2) //model: Mat3x4
+// InverseTransform avoids matrix inverse, same templates as Transform
 val view = InverseTransform(cam.translation, cam.rotation, cam.scale) //view: Mat3x4
 val modelView = view*model // modelView: Mat3x4
 
