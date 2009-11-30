@@ -52,15 +52,58 @@ s *= 10
 val t = 0.5f*(s + v)
 
 //Matrix multiplication
-//All of the GLSL mathematical functions that have valid signatures in Scala
-//Mutable and immutable vector and matrix types
+val m = Mat4(2)
+val n = Mat4x3(col0, col1, col2)
+val t = m*n //t: Mat4x3
+
+// Basic operations on vectors
+val len = length(v)
+val dist = distance(u, v)
+val d = dot(u, v)
+val normal = normalize(v)
+
+// Component-wise operations on vectors
+val inrads = radians(v)
+val indegrees = degrees(inrads)
+val allsin = sin(v)
+val angles = asin(allsin)
+var res = sinh(v)
+res = asinh(v)
+val p = pow(u, v) //p.x = u.x^v.x; p.y = u.y^v.y
+val allexp = exp(v)
+val back = log(allexp)
+res = exp2(v)
+res = log2(v)
+val root = sqrt(v)
+val invroot = inversesqrt(v) // 1/sqrt
+val allabs = abs(v)
+val signs = sign(v)
+res = floor(v)
+res = trunc(v)
+res = round(v)
+res = ceil(v)
+res = fract(v)
+val bothMin = min(u, v)
+val c = clamp(v, minVal, maxVal)
+
 //Noise functions backed by simplex noise implementation
+noise1(v)
+noise2(v)
+noise3(v)
+noise4(v)
 
 //`approxEqual` to compare floating point numbers, vectors and matrices
+if (approxEqual(u, v, 0.0001f)) println("approx")
+
 //Extended random, capable of generating random float, int and boolean vectors
+val random = Random()
+def vec2 = random.nextVec2()*100
+def mat2 = Mat2(vec2, vec2)
+println(mat2*vec2)
+
 //Quaternions and angle/axis rotations
 //`lerp` for matrices and `slerp` for quaternions
-//Projection matrices
+//Projection matrices for setting 3d camera
 //2x3 and 3x4 matrices as transformations
 //Flexible way to build transformations
 //Matrix inverse
