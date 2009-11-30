@@ -22,6 +22,8 @@ import simplex3d.math.ExtendedMath._ //all extra functions
 Examples:
 
 {{{
+import simplex3d.math._ //all the vectors and matrix classes
+
 //Factories
 var u = Vec2(1)
 var v = Vec4(1, 2, 3, 4)
@@ -55,6 +57,15 @@ val t = 0.5f*(s + v)
 val m = Mat4(2)
 val n = Mat4x3(col0, col1, col2)
 val t = m*n //t: Mat4x3
+
+//Extended random, capable of generating random float, int and boolean vectors
+val random = Random()
+def vec2 = random.nextVec2()*100
+def mat2 = Mat2(vec2, vec2)
+println(mat2*vec2)
+
+
+import simplex3d.math.VecMath._ //all GLSL functions
 
 // Basic operations on vectors
 val len = length(v)
@@ -92,20 +103,24 @@ val n2 = noise2(v) //n2: Vec2
 val n3 = noise3(v) //n3: Vec3
 val n4 = noise4(v) //n4: Vec4
 
+
+import simplex3d.math.ExtendedMath._ //all extra functions
+
 //`approxEqual` to compare floating point numbers, vectors and matrices
 if (approxEqual(u, v, 0.0001f)) println("approx")
-
-//Extended random, capable of generating random float, int and boolean vectors
-val random = Random()
-def vec2 = random.nextVec2()*100
-def mat2 = Mat2(vec2, vec2)
-println(mat2*vec2)
 
 //Quaternions and angle/axis rotations
 val q1 = quatFrom(radians(30), Vec3.UnitX)
 val q2 = quatFrom(radians(45), Vec3.UnitY)
 val q = q2*q1 // first rotaty by q1 then by q2
 val v = q*Vec3(1, 1, 1) //rotate Vec3(1, 1, 1) by q
+
+val r1 = rotationMatFrom(q)
+val r2 = rotationMatFrom(radians(180), normalize(Vec3(1, 1, 1))
+
+val result = Vec3(0)
+val angle1 = angleAxisFrom(r1, result); val axis1 = Vec3(result)
+val angle2 = angleAxisFrom(q2, result); val axis2 = Vec3(result)
 
 //`lerp` for matrices and `slerp` for quaternions
 val interpolatedMat = lerp(m0, m1, 0.4f)
@@ -124,8 +139,8 @@ val orientation = tf.transofrmVector(u)
 // Template: Transform(translation, rotation, scale)
 // Template: Transform(translation, rotation)
 // Template: Transform(rotation, scale)
-val model = Transform(Vec3(0, 1, 0), radians(60), Vec3.UnitY, 2) //model: Mat3x4
 // InverseTransform avoids matrix inverse, same templates as Transform
+val model = Transform(Vec3(0, 1, 0), radians(60), Vec3.UnitY, 2) //model: Mat3x4
 val view = InverseTransform(cam.translation, cam.rotation, cam.scale) //view: Mat3x4
 val modelView = view*model // modelView: Mat3x4
 
