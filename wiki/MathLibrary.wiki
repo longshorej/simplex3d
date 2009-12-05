@@ -12,18 +12,46 @@ Additional benefit of mimicking GLSL is that you can recycle your GLSL skills us
 = Getting started =
 
 Download simplex3dMath.jar and add it to your classpath. In your scala file, use the following imports:
-
 {{{
-import simplex3d.math._ //all the vectors and matrix classes
-import simplex3d.math.VecMath._ //all GLSL functions
-import simplex3d.math.ExtendedMath._ //all extra functions
+// for boolean vectors
+import simplex3d.math._ // boolean vectors and some base classes
+import simplex3d.math.BaseMath._ // casting and some boolean operations
+
+// for int vectors
+import simplex3d.math.intm._ // all the int vectors
+import simplex3d.math.intm.IntMath._ // all the int math functions
+
+// for float vectors and matrices
+import simplex3d.math.floatm._ // all the float vectors and matrices
+import simplex3d.math.floatm.FloatMath._ // all the float math functions
+
+// for double vectors and matrices
+import simplex3d.math.doublem._ // all the float vectors and matrices
+import simplex3d.math.doublem.DoubleMath._ // all the float math functions
 }}}
+Additional imports allow you to use double or float vectors and matrices without
+appending "d" or "f" at the end of the type. This is useful when you choose float
+or double type as your default type.
+{{{
+import simplex3d.math.doublem.renamed._
+val v = Vec2(0) // the type of v is Vec2d
+// OR
+import simplex3d.math.floatm.renamed._
+val v = Vec2(0) // the type of v is Vec2f
+}}}
+You can choose default floating point type and still use the other type by specifying full name:
+{{{
+import simplex3d.math.floatm.renamed._
+import simplex3d.math.doublem._
+
+val m = Mat4(1) // the type of m is Mat4f
+val n = Mat3d(1) // the type of n is Mat3d
+}}}
+
 
 Examples:
 
 {{{
-import simplex3d.math._ //all the vectors and matrix classes
-
 //Factories
 var u = Vec2(1)
 var v = Vec4(1, 2, 3, 4)
@@ -57,15 +85,6 @@ val t = 0.5f*(s + v)
 val m = Mat4(2)
 val n = Mat4x3(col0, col1, col2)
 val t = m*n //t: Mat4x3
-
-//Extended random, capable of generating random float, int and boolean vectors
-val random = Random()
-def vec2 = random.nextVec2()*100
-def mat2 = Mat2(vec2, vec2)
-println(mat2*vec2)
-
-
-import simplex3d.math.VecMath._ //all GLSL functions
 
 // Basic operations on vectors
 val len = length(v)
@@ -102,9 +121,6 @@ val n1 = noise1(v) //n1: Float
 val n2 = noise2(v) //n2: Vec2
 val n3 = noise3(v) //n3: Vec3
 val n4 = noise4(v) //n4: Vec4
-
-
-import simplex3d.math.ExtendedMath._ //all extra functions
 
 //`approxEqual` to compare floating point numbers, vectors and matrices
 if (approxEqual(u, v, 0.0001f)) println("approx")
@@ -174,7 +190,7 @@ Vectors examples:
 Matrix examples:
 || *GLSL* || *Simplex3d* ||
 || mat2 || Mat2 ||
-|| mat2x2 || _notation is unsupported until Scala 2.8_ ||
+|| mat2x2 || Mat2x2 (only support for floatm.renamed and doublem.renamed) ||
 || mat2x3 || Mat2x3 ||
 
 If desired, you can change type declarations to be exactly the same as in GLSL using Scala imports. For example:
@@ -193,6 +209,19 @@ var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
 v -= Vec4(0.5f) //works, because v is var
 
 val w: ConstVec2 = 3*(u.xy + v.zw) //implicit conversion from Vec2 to ConstVec2
+}}}
+
+When writing functions, you have to remember to support both constant and mutable types. To accomplish this, use the common supertype:
+{{{
+// This function will not accept ConstVec3.
+def foo(v: Vec3) = 2*v
+
+// Using the supertype to allow constant and mutable types.
+// This function will accept both ConstVec3 and Vec3.
+def foo(v: AnyVec3) = 2*v
+
+// Similar for matrices:
+def bar(m: AnyMat3) :Mat3 = m*Mat3(2)
 }}}
 
 == Matrix as multidimensional array ==
@@ -246,7 +275,7 @@ Some other additions are:
   * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
   * `approxEqual` to compare floating point numbers, vectors and matrices
-  * Extended random, capable of generating random float, int and boolean vectors
+  * functions to generate random float, int and boolean vectors
   * Quaternions and angle/axis rotations
   * `lerp` for matrices and `slerp` for quaternions
   * Projection matrices
@@ -257,7 +286,6 @@ Some other additions are:
 
 = Planned =
 The following features are planned but not yet implemented:
-  * Support for double vectors and matrices
   * Compiler plugin!
 
 = Feedback =
