@@ -280,24 +280,26 @@ Using constants:
 var mutable: Vec3 = Vec3(1)
 var constant = ConstVec3(2)
 
-//"mutable = constant" will generate compile time error
-//since conversion from constant to mutable is unsafe
-mutable := constant //use "mutable := constant" or "mutable.set(constant)"
+//safe implicit conversion from const to mutable
+mutable = constant
 
-//implicit conversion from mutable to const is safe, so this works
-constant = mutable //makes a copy of mutable and assigns to constant
+// copy without reassigning
+mutable := constant
+mutable.set(constant)
+
+//implicit conversion from mutable to const is always safe, so this works
+constant = mutable
 
 val finalConstan = ConstVec3(1)
 finalConstant = mutbale //compile time error, since val cannot be reassigned
 }}}
 
-When writing functions, you have to remember to support both constant and mutable types. To accomplish this, use the common supertype AnyVec:
+When writing functions, you can support both constant and mutable types without implicit conversions. To accomplish this, use the common supertype AnyVec:
 {{{
-//This function will not accept ConstVec3.
+//This function will trigger an implicit conversion if v is ConstVec3.
 def foo(v: Vec3) = 2*v
 
-//Using the supertype to allow constant and mutable types.
-//This function will accept both ConstVec3 and Vec3.
+//This function will accept both ConstVec3 and Vec3 without implicit conversions
 def foo(v: AnyVec3) = 2*v
 
 //Similar for matrices:
