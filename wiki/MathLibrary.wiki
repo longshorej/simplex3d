@@ -254,7 +254,7 @@ Vectors examples:
 Matrix examples:
 || *GLSL* || *Simplex3d* ||
 || mat2 || Mat2 ||
-|| mat2x2 || Mat2x2 (only support for floatm.renamed and doublem.renamed) ||
+|| mat2x2 || Mat2x2 (supported for floatm.renamed and doublem.renamed) ||
 || mat2x3 || Mat2x3 ||
 
 If desired, you can change type declarations to be exactly the same as in GLSL using Scala imports. For example:
