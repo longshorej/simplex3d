@@ -17,41 +17,70 @@ Download simplex3dMath.jar and add it to your classpath. In your scala file, use
 import simplex3d.math._ // boolean vectors and some base classes
 import simplex3d.math.BaseMath._ // casting and some boolean operations
 
+// boolean examples
+val b2 = Vec2b(true, true)
+val b3 = Vec3b(true, true, false)
+
 // for int vectors
 import simplex3d.math.intm._ // all the int vectors
 import simplex3d.math.intm.IntMath._ // all the int math functions
+
+// int examples
+val i2 = Vec2i(1, 2)
+val i3 = Vec2i(1, 2, 3)
 
 // for float vectors and matrices
 import simplex3d.math.floatm._ // all the float vectors and matrices
 import simplex3d.math.floatm.FloatMath._ // all the float math functions
 
+// float examples
+val f2 = Vec2f(1.5f, 2.5f)
+val f3 = Vec2f(1.5f, 2.5f, 3)
+val mf4 = Mat4f(1)
+
 // for double vectors and matrices
-import simplex3d.math.doublem._ // all the float vectors and matrices
-import simplex3d.math.doublem.DoubleMath._ // all the float math functions
+import simplex3d.math.doublem._ // all the double vectors and matrices
+import simplex3d.math.doublem.DoubleMath._ // all the double math functions
+
+// double examples
+val d2 = Vec2d(1.5, 2.5)
+val d3 = Vec2d(1.5, 2.5, 3)
+val md4 = Mat4d(1)
 }}}
-Additional imports allow you to use double or float vectors and matrices without
-appending "d" or "f" at the end of the type. This is useful when you choose float
-or double type as your default type.
+
+Alternative imports allow you to use Double or Float vectors and matrices without
+appending "f" or "d" at the end of the type. This is useful when you choose Float
+or Double type as your default floating-point type.
+
+Float as default floating-point type:
 {{{
+// alternative import, using short names for Float data types
+import simplex3d.math.floatm.renamed._
+
+// float examples
+val v2: Vec2 = Vec2(1, 2) // the type of v2 is Vec2f
+val v3 = Vec3(1, 2, 3) // the type of v3 is Vec3f
+val m = Mat3(1) // the type of m is Mat3f
+}}}
+
+Double as default floating-point type:
+{{{
+// alternative import, using short names for Double data types
 import simplex3d.math.doublem.renamed._
-val v = Vec2(0) // the type of v is Vec2d
-// OR
-import simplex3d.math.floatm.renamed._
-val v = Vec2(0) // the type of v is Vec2f
-}}}
-You can choose default floating point type and still use the other type by specifying full name:
-{{{
-import simplex3d.math.floatm.renamed._
-import simplex3d.math.doublem._
 
-val m = Mat4(1) // the type of m is Mat4f
-val n = Mat3d(1) // the type of n is Mat3d
+// double examples
+val v2: Vec2 = Vec2(1, 2) // the type of v2 is Vec2d
+val v3 = Vec3(1, 2, 3) // the type of v3 is Vec3d
+val m = Mat3(1) // the type of m is Mat3d
 }}}
 
+= Using the library =
 
-Examples:
-
+The following is a list of examples on how to use the API:
 {{{
+import simplex3d.math.floatm.renamed._ //using short names for Float data types
+import simplex3d.math.floatm.FloatMath._ //using all float functions
+
 //Factories
 var u = Vec2(1)
 var v = Vec4(1, 2, 3, 4)
@@ -167,6 +196,39 @@ val p = complicated.transformPoint(p)
 
 //Matrix inverse
 val inv = inverse(tf)
+}}}
+
+If you import "simplex3d.math.floatm" package then you have to append "f" to the name of each data type:
+{{{
+import simplex3d.math.floatm._ // using full names for Float data types
+
+var u = Vec2f(1)
+var v = Vec4f(1, 2, 3, 4)
+v = Vec4f(u, 5, 6)
+
+val m = Mat4x3f(1)
+val n = Mat4f(v, v, v, v)
+}}}
+
+Similarly, if you import "import simplex3d.math.doublem" package then you have to append "d" to the name of each data type:
+{{{
+import simplex3d.math.doublem._ // using full names for Double data types
+
+var u = Vec2d(1)
+var v = Vec4d(1, 2, 3, 4)
+v = Vec4d(u, 5, 6)
+
+val m = Mat4x3d(1)
+val n = Mat4d(v, v, v, v)
+}}}
+
+You can choose default floating point type and still use the other type by specifying full name. In the following example the default type is Float, yet you can still use Double by specifying the full type name (with "d" appended):
+{{{
+import simplex3d.math.floatm.renamed._ // using short names for Float data types
+import simplex3d.math.doublem._ // using full names for Double data types
+
+val m = Mat4(1) // the type of m is Mat4f
+val n = Mat3d(1) // the type of n is Mat3d
 }}}
 
 Most of the GLSL features are supported. See the following sections for differences, missing features and extras.
