@@ -270,7 +270,7 @@ val u = ConstVec3(1, 2, 3)
 u.x = 10 //compile time error
 
 var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
-v -= Vec4(0.5f) //works, because v is var
+v += Vec4(0.5f) //works, because v is var
 
 val w: ConstVec2 = 3*(u.xy + v.zw) //implicit conversion from Vec2 to ConstVec2
 }}}
