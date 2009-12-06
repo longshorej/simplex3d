@@ -280,18 +280,16 @@ Using constants:
 var mutable: Vec3 = Vec3(1)
 var constant = ConstVec3(2)
 
-//safe implicit conversion from const to mutable
+//implicit conversion from const to mutable
 mutable = constant
-
-// copy without reassigning
+//copy without reassigning
 mutable := constant
-mutable.set(constant)
 
-//implicit conversion from mutable to const is always safe, so this works
+//implicit conversion from mutable to const
 constant = mutable
 
-val finalConstan = ConstVec3(1)
-finalConstant = mutbale //compile time error, since val cannot be reassigned
+val finalConstant = ConstVec3(1)
+finalConstant = mutable //compile time error, since val cannot be reassigned
 }}}
 
 When writing functions, you can support both constant and mutable types without implicit conversions. To accomplish this, use the common supertype AnyVec:
