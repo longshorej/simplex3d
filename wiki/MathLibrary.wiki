@@ -306,7 +306,7 @@ def bar(m: AnyMat3) :Mat3 = m*Mat3(2)
 
 == Matrix as multidimensional array ==
 
-Due to the language constrains, writing into matrix using array notation is different. This will be fixed with a compiler plugin. Example:
+Due to the language constrains, writing into matrix using array notation is different from GLSL. Example:
 {{{
 val m = Mat3(1)
 m(0)(0) = 2 //compile time error
