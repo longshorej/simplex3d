@@ -254,7 +254,7 @@ Vectors examples:
 Matrix examples:
 || *GLSL* || *Simplex3d* ||
 || mat2 || Mat2 ||
-|| mat2x2 || Mat2x2 (supported for floatm.renamed and doublem.renamed) ||
+|| mat2x2 || Mat2x2 ||
 || mat2x3 || Mat2x3 ||
 
 If desired, you can change type declarations to be exactly the same as in GLSL using Scala imports. For example:
@@ -266,7 +266,7 @@ import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 
 Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. Examples:
 {{{
-val u = ConstVec3(1, 2, 3)
+val u = const(Vec3(1, 2, 3))
 u.x = 10 //compile time error
 
 var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
@@ -278,7 +278,7 @@ val w: ConstVec2 = 3*(u.xy + v.zw) //implicit conversion from Vec2 to ConstVec2
 Using constants:
 {{{
 var mutable: Vec3 = Vec3(1)
-var constant = ConstVec3(2)
+var constant = const(Vec3(2))
 
 //implicit conversion from const to mutable
 mutable = constant
@@ -288,7 +288,7 @@ mutable := constant
 //implicit conversion from mutable to const
 constant = mutable
 
-val finalConstant = ConstVec3(1)
+val finalConstant = const(Vec3(1))
 finalConstant = mutable //compile time error, since val cannot be reassigned
 }}}
 
@@ -336,12 +336,12 @@ There are some extras not present in GLSL or in Scala.
 == Cast ==
 
 Scala has a rather nasty way of casting with `asInstanceOf[Type]`. To make things more readable and stay within the spirit of GLSL it is recommended to use these casts:
-  * int(x: Long)
-  * int(x: Float)
-  * int(x: Double)
-  * long(x: Float)
-  * long(x: Double)
-  * float(x: Double)
+  * byte(x)
+  * short(x)
+  * int(x)
+  * long(x)
+  * float(x)
+  * double(x)
 
 Examples:
 {{{
