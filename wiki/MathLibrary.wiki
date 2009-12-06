@@ -291,7 +291,7 @@ val finalConstan = ConstVec3(1)
 finalConstant = mutbale // compile time error, since val cannot be reassigned
 }}}
 
-When writing functions, you have to remember to support both constant and mutable types. To accomplish this, use the common supertype:
+When writing functions, you have to remember to support both constant and mutable types. To accomplish this, use the common supertype AnyVec:
 {{{
 // This function will not accept ConstVec3.
 def foo(v: Vec3) = 2*v
