@@ -74,6 +74,8 @@ val v3 = Vec3(1, 2, 3) // the type of v3 is Vec3d
 val m = Mat3(1) // the type of m is Mat3d
 }}}
 
+-----
+
 = Using the library =
 
 The following is a list of examples on how to use the API:
