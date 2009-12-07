@@ -195,10 +195,10 @@ val modelView = view*model // modelView: Mat3x4
 val complicated = Translation(u)*Scale(s1)*Rotation(q1)*Scale(s2)*Translation(v)
 // first p is translated by v, then scaled by s2, then rotated by q1,
 // then scaled by s1 and finally translated by u
-val p = complicated.transformPoint(p)
+val p = complicated.transformPoint(point)
 
 //Matrix inverse
-val inv = inverse(tf)
+val inv = inverse(transformationMatrix)
 }}}
 
 If you import "simplex3d.math.floatm" package then you have to append "f" to the name of each data type:
