@@ -276,7 +276,7 @@ val u = const(Vec3(1, 2, 3))
 val vi = consti(Vec3i(5))
 
 //defining boolean constant
-val vb = constb(Vec3b(5))
+val vb = constb(Vec3b(true))
 }}}
 
 Using constants:
