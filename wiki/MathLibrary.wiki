@@ -264,15 +264,19 @@ import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 
 == Constants ==
 
-Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. Examples:
+Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. There are two ways to declare constants: by declaring the constant type and by using const(...), consti(...), and constb(...) functions. Examples:
 {{{
-val u = const(Vec3(1, 2, 3))
-u.x = 10 //compile time error
-
+//defining a constant using declared type
 var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
-v += Vec4(0.5f) //works, because v is var
 
-val w: ConstVec2 = 3*(u.xy + v.zw) //implicit conversion from Vec2 to ConstVec2
+//defining constant using const(...) function
+val u = const(Vec3(1, 2, 3))
+
+//defining int constant
+val vi = consti(Vec3i(5))
+
+//defining boolean constant
+val vb = constb(Vec3b(5))
 }}}
 
 Using constants:
