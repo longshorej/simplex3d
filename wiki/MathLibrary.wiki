@@ -20,14 +20,15 @@ import simplex3d.math.BaseMath._ // casting and some boolean operations
 // boolean examples
 val b2 = Vec2b(true, true)
 val b3 = Vec3b(true, true, false)
+val nb = not(b3)
 
 // for int vectors
 import simplex3d.math.intm._ // all the int vectors
-import simplex3d.math.intm.IntMath._ // all the int math functions
 
 // int examples
 val i2 = Vec2i(1, 2)
-val i3 = Vec2i(1, 2, 3)
+val i3 = Vec3i(1, 2, 3)
+val max = IntMath.max(i2, i3.yz) // use fully qualified names for int functions
 
 // for float vectors and matrices
 import simplex3d.math.floatm._ // all the float vectors and matrices
@@ -35,8 +36,8 @@ import simplex3d.math.floatm.FloatMath._ // all the float math functions
 
 // float examples
 val f2 = Vec2f(1.5f, 2.5f)
-val f3 = Vec2f(1.5f, 2.5f, 3)
-val mf4 = Mat4f(1)
+val f3 = Vec3f(1.5f, 2.5f, 3)
+val mf = Mat4f(1)
 
 // for double vectors and matrices
 import simplex3d.math.doublem._ // all the double vectors and matrices
@@ -44,7 +45,7 @@ import simplex3d.math.doublem.DoubleMath._ // all the double math functions
 
 // double examples
 val d2 = Vec2d(1.5, 2.5)
-val d3 = Vec2d(1.5, 2.5, 3)
+val d3 = Vec3d(1.5, 2.5, 3)
 val md4 = Mat4d(1)
 }}}
 
