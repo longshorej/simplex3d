@@ -3,9 +3,7 @@
 
 = General =
 
-The library mimics GLSL so it is easy to use. The downside is slow performance which will be remedied with a compiler plugin. Given the possibilities of optimization with the plugin, it is possible to have a very easy to use library that run faster than anything written in pure Java.
-
-Additional benefit of mimicking GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
+The library mimics GLSL so it is easy to use. Additional benefit of being close GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
 
 -----
 
