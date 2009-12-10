@@ -240,7 +240,7 @@ Most of the GLSL features are supported. See the following sections for differen
 
 = Differences with GLSL =
 
-Aside from obvious differences, such as Scala variable declaration and function signatures, there are a couple of small quirks you should be aware of.
+Aside from obvious differences, such as Scala variable declaration and function signatures, there are a couple of small quirks.
 
 == Type declarations ==
 
@@ -265,25 +265,19 @@ import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 
 == Constants ==
 
-Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. There are two ways to declare constants: by declaring the constant type and by using const(...), consti(...), and constb(...) functions. Examples:
+Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. Examples:
 {{{
 //defining a constant using declared type
 var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
 
-//defining constant using const(...) function
-val u = const(Vec3(1, 2, 3))
-
-//defining int constant
-val vi = consti(Vec3i(5))
-
-//defining boolean constant
-val vb = constb(Vec3b(true))
+//defining constant using a factory
+val u = ConstVec3(1, 2, 3)
 }}}
 
 Using constants:
 {{{
 var mutable: Vec3 = Vec3(1)
-var constant = const(Vec3(2))
+var constant = ConstVec3(2, 2, 2)
 
 //implicit conversion from const to mutable
 mutable = constant
@@ -293,7 +287,7 @@ mutable := constant
 //implicit conversion from mutable to const
 constant = mutable
 
-val finalConstant = const(Vec3(1))
+val finalConstant = ConstVec3(1, 1, 1)
 finalConstant = mutable //compile time error, since val cannot be reassigned
 }}}
 
@@ -320,17 +314,49 @@ m(0, 0) = 2 //works
 
 == Matrix constructors ==
 
-Matrix constructors accept any mix of floats and vectors, just like in GLSL. If the total number of floats extracted from arguments does not add up to the matrix size, you get an error. With GLSL you get a compile time error. However with current mathlib implementation you will get a runtime error instead. This will be fixed with the compiler plugin.
+Unlike GLSL, matrix constructors do not accept an arbitrary mix of floats and vectors. You can specify all the values or all the columns to construct a matrix.
 Example:
 {{{
-val w = Mat3(1, 2, Vec2(3, 4), Vec4(5, 6, 7, 8), 9) //works
-val c = Mat2(1, new Object(), 2, 3) //compile time error
-val m = Mat2x3(Vec4(1), Vec4(2), Vec4(3)) //runtime error - too many floats in arguments
-val f = Mat4(1, 2, 3, 4) //runtime error - too few floats in arguments
+val s = Mat4(2) // a 4x4 matrix with 2 on diagonal
+val m = Mat2(1, 2, 3, 4)
+val n = Mat3(Vec3.UnitX, Vec3.UnitY, Vec3.UnitZ)
 }}}
 
 == Modf ==
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
+
+== Casting Vectors ==
+Casting vectors is similar to casting primitives, if a primitive can be automatically converted, so can the vector. For example:
+{{{
+val v = Vec3f(1)
+val u = Vec3i(2)
+v = u // integer vector u is promoted to the float vector
+}}}
+
+In cases when the primitive type cannot be promoted, you have to use a manual cast:
+{{{
+val v = Vec3f(1)
+val u = Vec3d(2)
+v = u // compile time error, since double cannot be promoted to float
+v = Vec3f(u) // works
+}}}
+
+== Casting Matrices ==
+You can cast matrices of different size, just like in GLSL:
+{{{
+val m = Mat4(1)
+val n = Mat2x3(m)
+}}}
+You cannot cast float matrices to doubles or vice versa. Use vector or primitive accessors as arguments in the corresponding constructor:
+{{{
+// using primitive accessors
+val a = Mat2f(1)
+val b = Mat2d(a.m00, a.m01, a.m10, a.m11)
+
+// using vector accessors
+val m = Mat3d(1)
+val n = Mat3f(m(0), m(1), m(2))
+}}}
 
 -----
 
@@ -338,9 +364,9 @@ val f = Mat4(1, 2, 3, 4) //runtime error - too few floats in arguments
 
 There are some extras not present in GLSL or in Scala.
 
-== Cast ==
+== Casting ==
 
-Scala has a rather nasty way of casting with `asInstanceOf[Type]`. To make things more readable and stay within the spirit of GLSL it is recommended to use these casts:
+Scala has a rather nasty way of casting with `asInstanceOf[Type]`. To make things more readable it is recommended to use these casts:
   * byte(x)
   * short(x)
   * int(x)
@@ -369,9 +395,11 @@ Some other additions are:
   * Matrix inverse
 -----
 
-= Planned =
-The following features are planned but not yet implemented:
-  * Compiler plugin!
+= Compiler plugin =
+Initially there was a plan to make a compiler plugin. However after evaluating new JVM switch -XX:+DoEscapeAnalysis the compiler plugin was cancelled.<br/>
+Escape analysis seems to eliminate temporary new objects in the critical sections of the code, giving results that are very close to the results with temporary variable management the compiler plugin was supposed to do.<br/>
+JVM can optimise code at a lower level and managing temporary valiriables manually or via compiler plugin can interfere with that process causing the code to perform slower in some cases.<br/>
+Additionally JVM will continue to improve, as it always does. So if the compiler plugin is capable of giving marginally better results now, that will not always be the case.
 
 = Feedback =
 
