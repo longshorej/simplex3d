@@ -100,8 +100,7 @@ m(0, 3) = 4
 //Swizzling
 val a = v.xyz
 val b = v.wxz
-val c = v.rgb
-val d = v.stpq
+val c = v.rb
 
 v.xz = Vec2(0)
 v.ra = v.wy
@@ -260,6 +259,9 @@ If desired, you can change type declarations to be exactly the same as in GLSL u
 {{{
 import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 }}}
+
+== Swizzling ==
+xyzw and rgba swilling modes are supported for integer and floating point vectors.
 
 == Constants ==
 
