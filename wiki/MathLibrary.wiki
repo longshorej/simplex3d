@@ -11,7 +11,7 @@ import simplex3d.math.floatm.renamed._ //using short names for Float data types
 import simplex3d.math.floatm.FloatMath._ //using all float functions
 }}}
 
-Below is a short example on how to construct and use the model view matrix:
+Below is a short example on how to construct and use the model-view matrix:
 {{{
 val translation = Vec3(1, 2, 3)
 val rotation = quatFrom(radians(60), normalize(Vec3(1))
