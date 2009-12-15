@@ -1,5 +1,7 @@
 #summary Some examples on how to use the MathLibrary
 
+[MathLibrary Back to Index]
+
 The following is a list of examples on how to use the API:
 {{{
 import simplex3d.math.floatm.renamed._ //using short names for Float data types
@@ -120,3 +122,5 @@ val p = complicated.transformPoint(point)
 //Matrix inverse
 val inv = inverse(transformationMatrix)
 }}}
+
+[MathLibrary Back to Index]
