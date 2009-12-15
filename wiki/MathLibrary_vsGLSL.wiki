@@ -1,0 +1,119 @@
+#summary Differences with GLSL
+
+Aside from obvious differences, such as Scala variable declaration and function signatures, there are other minor differences.
+
+== Type declarations ==
+
+To stay consistent with Scala object naming conversions, the type names are distinct from GLSL.
+
+Vectors examples:
+|| *GLSL* || *Simplex3d* ||
+|| vec2 || Vec2 ||
+|| ivec2 || Vec2i ||
+|| bvec2 || Vec2b ||
+
+Matrix examples:
+|| *GLSL* || *Simplex3d* ||
+|| mat2 || Mat2 ||
+|| mat2x2 || Mat2x2 ||
+|| mat2x3 || Mat2x3 ||
+
+If desired, you can change type declarations to be exactly the same as in GLSL using Scala imports. For example:
+{{{
+import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
+}}}
+
+== Swizzling ==
+Only `xyzw` and `rgba` swilling modes are supported for integer and floating point vectors. Chain swizzling (eg: v.wyxz.yx) is supported for read operations but not supported for write operations (v.wyxz.yx = u will not compile).
+
+== Constants ==
+
+Instead of `const` modifier there is a corresponding immutable object for each type. The Const classes are final and their accessors are read-only, so you have a compile time guarantee that the values will stay unchanged. Examples:
+{{{
+//defining a constant using declared type
+var v: ConstVec4 = Vec4(1) //implicit conversion from Vec4 to ConstVec4
+
+//defining constant using a factory
+val u = ConstVec3(1, 2, 3)
+}}}
+
+Using constants:
+{{{
+var mutable: Vec3 = Vec3(1)
+var constant = ConstVec3(2, 2, 2)
+
+//implicit conversion from const to mutable
+mutable = constant
+//copy without reassigning
+mutable := constant
+
+//implicit conversion from mutable to const
+constant = mutable
+
+val finalConstant = ConstVec3(1, 1, 1)
+finalConstant = mutable //compile time error, since val cannot be reassigned
+}}}
+
+When writing functions, you can support both constant and mutable types without implicit conversions. To accomplish this, use the common supertype AnyVec:
+{{{
+//This function will trigger an implicit conversion if v is ConstVec3.
+def foo(v: Vec3) = 2*v
+
+//This function will accept both ConstVec3 and Vec3 without implicit conversions
+def foo(v: AnyVec3) = 2*v
+
+//Similar for matrices:
+def bar(m: AnyMat3) :Mat3 = m*Mat3(2)
+}}}
+
+== Matrix as multidimensional array ==
+
+Writing into matrix using array notation is different from GLSL. Example:
+{{{
+val m = Mat3(1)
+m(0)(0) = 2 //compile time error
+m(0, 0) = 2 //works
+}}}
+
+== Matrix constructors ==
+
+Unlike GLSL, matrix constructors do not accept an arbitrary mix of floats and vectors. You can specify all the values or all the columns to construct a matrix.
+Example:
+{{{
+val s = Mat4(2) // a 4x4 matrix with 2 on diagonal
+val m = Mat2(1, 2, 3, 4)
+val n = Mat3(Vec3.UnitX, Vec3.UnitY, Vec3.UnitZ)
+}}}
+
+== Casting Vectors ==
+
+Casting vectors is similar to casting primitives, if a primitive can be automatically converted, so can the vector. For example:
+{{{
+val v = Vec3f(1)
+val u = Vec3i(2)
+v = u // integer vector u is promoted to the float vector
+}}}
+
+In cases when the primitive type cannot be promoted, you have to do a manual cast:
+{{{
+val v = Vec3f(1)
+val u = Vec3d(2)
+v = u // compile time error, since double cannot be promoted to float
+v = Vec3f(u) // works
+}}}
+
+== Casting Matrices ==
+
+To cast float matrices to doubles or vice versa, use vector or primitive accessors as arguments in the corresponding constructor:
+{{{
+// using primitive accessors
+val a = Mat2f(1)
+val b = Mat2d(a.m00, a.m01, a.m10, a.m11)
+
+// using vector accessors
+val m = Mat3d(1)
+val n = Mat3f(m(0), m(1), m(2))
+}}}
+
+== Modf ==
+`modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
