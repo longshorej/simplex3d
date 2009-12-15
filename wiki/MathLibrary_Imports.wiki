@@ -15,7 +15,7 @@ import simplex3d.math.BaseMath._ // casting and some boolean operations
 Int module contains integer vectors. The corresponding IntMath object contains function to operate on those vectors.
 {{{
 import simplex3d.math.intm._ // all the int vectors
-// It is recommended to use fully qualified names for int functions "IntMath.function()"
+// It is recommended to use fully qualified names for int functions `IntMath.function()`
 // to avoid name collisions, however sometimes you may find it useful to import.
 import simplex3d.math.intm.IntMath._
 }}}
