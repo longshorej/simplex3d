@@ -198,7 +198,7 @@ val p = complicated.transformPoint(point)
 val inv = inverse(transformationMatrix)
 }}}
 
-If you import "simplex3d.math.floatm" package then you have to append "f" to the name of each data type:
+If you import "simplex3d.math.floatm" package then all the types must have an "f" appended to their name:
 {{{
 import simplex3d.math.floatm._ // using full names for Float data types
 
@@ -210,7 +210,7 @@ val m = Mat4x3f(1)
 val n = Mat4f(v, v, v, v)
 }}}
 
-Similarly, if you import "import simplex3d.math.doublem" package then you have to append "d" to the name of each data type:
+Similarly, if you import "import simplex3d.math.doublem" package then all the types must have a "d" appended to their name:
 {{{
 import simplex3d.math.doublem._ // using full names for Double data types
 
@@ -222,7 +222,7 @@ val m = Mat4x3d(1)
 val n = Mat4d(v, v, v, v)
 }}}
 
-You can choose default floating point type and still use the other type by specifying full name. In the following example the default type is Float, yet you can still use Double by specifying the full type name (with "d" appended):
+You can choose default floating point type and still use the other type by specifying full name. In the following example the default type is Float, and you can still use Double by specifying the full type name (with "d" appended):
 {{{
 import simplex3d.math.floatm.renamed._ // using short names for Float data types
 import simplex3d.math.doublem._ // using full names for Double data types
@@ -261,7 +261,7 @@ import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 }}}
 
 == Swizzling ==
-xyzw and rgba swilling modes are supported for integer and floating point vectors.
+`xyzw` and `rgba` swilling modes are supported for integer and floating point vectors.
 
 == Constants ==
 
@@ -342,12 +342,13 @@ v = Vec3f(u) // works
 }}}
 
 == Casting Matrices ==
-You can cast matrices of different size, just like in GLSL:
+You can can change the size of the matrix (similar to GLSL):
 {{{
-val m = Mat4(1)
-val n = Mat2x3(m)
+val m = Mat4(2)
+val n = Mat2x3(m) // n = upper left 2x3 submatrix of m
+val t = Mat3x4(n) // t is set to the identity 3x4 matrix and then n is written into upper left 2x3 submatrix
 }}}
-You cannot cast float matrices to doubles or vice versa. Use vector or primitive accessors as arguments in the corresponding constructor:
+To cast float matrices to doubles or vice versa, use vector or primitive accessors as arguments in the corresponding constructor:
 {{{
 // using primitive accessors
 val a = Mat2f(1)
