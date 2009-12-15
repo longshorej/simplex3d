@@ -1,6 +1,8 @@
 #summary Differences with GLSL
 
-[MathLibrary Back to Index]
+[MathLibrary#Guide Index]
+
+= Differences with GLSL =
 
 Aside from obvious differences, such as Scala variable declaration and function signatures, there are other minor differences.
 
@@ -155,4 +157,4 @@ val b = int(sin(Pi/2)*100)
   * Flexible way to build transformations
   * Matrix inverse
 
-[MathLibrary Back to Index]
+[MathLibrary#Guide Back to Index]
