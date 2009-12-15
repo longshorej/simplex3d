@@ -1,6 +1,8 @@
 #summary Using overloaded imports to suit your needs.
 
-[MathLibrary Back to Index]
+[MathLibrary#Guide Index]
+
+= Using imports =
 
 Math library is separated into one base module and several mutually independent modules:
   * Integer module (intm)
@@ -72,4 +74,4 @@ val m = Mat4(1) // the type of m is Mat4f
 val n = Mat3d(1) // the type of n is Mat3d
 }}}
 
-[MathLibrary Back to Index]
+[MathLibrary#Guide Back to Index]
