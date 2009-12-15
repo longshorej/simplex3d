@@ -20,7 +20,7 @@ import simplex3d.math.intm._ // all the int vectors
 import simplex3d.math.intm.IntMath._
 }}}
 
-Float modules contains float vectors, float matrices, and most of the functions.
+Float module contains float vectors, float matrices, and most of the functions.
 {{{
 import simplex3d.math.floatm._ // all the float vectors and matrices
 import simplex3d.math.floatm.FloatMath._ // all the float math functions
@@ -32,9 +32,9 @@ import simplex3d.math.doublem._ // all the double vectors and matrices
 import simplex3d.math.doublem.DoubleMath._ // all the double math functions
 }}}
 
-To distinguish between float and double types you need to append an "f" or a "d" at the end of the type name. For example: Vec2f is a float vector with x and y components, and Mat4d is a 4x4 matrix with double components.
+To distinguish between Float and Double types you need to append an "f" or a "d" at the end of a type name. For example: Vec2f is a float vector with x and y components, and Mat4d is a 4x4 matrix with double components.
 
-If you choose Float or Double type as your default floating-point type you can use alternative imports that allow you to drop "f" or "d" at the end of the type name.
+If you choose Float or Double type as your default floating-point type you can use alternative imports that allow to drop "f" or "d" at the end of the type name.
 
 Float as default floating-point type:
 {{{
@@ -60,7 +60,7 @@ val v3 = Vec3(1, 2, 3) // the type of v3 is Vec3d
 val m = Mat3(1) // the type of m is Mat3d
 }}}
 
-You can choose default floating point type and still use the other type by specifying the full name. In the following example the default type is Float, and you can still use Double by specifying the full type name (with "d" appended):
+You can choose the default floating point type and still use the other type by specifying the full name. In the following example the default type is Float, and you can still use Double by specifying the full type name (with "d" appended):
 {{{
 import simplex3d.math.floatm.renamed._ // using short names for Float data types
 import simplex3d.math.doublem._ // using full names for Double data types
