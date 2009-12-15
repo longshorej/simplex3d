@@ -1,6 +1,8 @@
 #summary Some examples on how to use the MathLibrary
 
-[MathLibrary Back to Index]
+[MathLibrary#Guide Index]
+
+= Examples =
 
 The following is a list of examples on how to use the API:
 {{{
@@ -123,4 +125,4 @@ val p = complicated.transformPoint(point)
 val inv = inverse(transformationMatrix)
 }}}
 
-[MathLibrary Back to Index]
+[MathLibrary#Guide Back to Index]
