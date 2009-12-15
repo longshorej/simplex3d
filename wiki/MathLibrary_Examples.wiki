@@ -103,7 +103,7 @@ val tf = Mat3x4(1)
 val position = tf.transofrmPoint(v)
 val orientation = tf.transofrmVector(u)
 
-//Flexible way to build transformations
+// Flexible way to build transformations
 // Template: Transform(translation, rotation, scale)
 // Template: Transform(translation, rotation)
 // Template: Transform(rotation, scale)
