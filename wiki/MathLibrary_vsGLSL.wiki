@@ -117,3 +117,38 @@ val n = Mat3f(m(0), m(1), m(2))
 
 == Modf ==
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
+
+----
+
+= Additions not present in GLSL =
+
+Below is a quick reference of functions included into the MathLibrary that are not present in GLSL.
+
+== Casting ==
+
+Scala native casting `asInstanceOf[Type]` looks somewhat odd in math code. To make the code more readable it is recommended to use these casts:
+  * byte(x)
+  * short(x)
+  * int(x)
+  * long(x)
+  * float(x)
+  * double(x)
+
+Examples:
+{{{
+val a = float(java.lang.Math.PI) //this is just an example, the constant Pi is defined in FloatMath
+val b = int(sin(Pi/2)*100)
+}}}
+
+== Other additions ==
+
+  * `:=` operator, equivalent to set(), but does not require parentheses
+  * `lengthSquare` method if you want to avoid using square root
+  * `approxEqual` to compare floating point numbers, vectors and matrices
+  * functions to generate random float, int and boolean vectors
+  * Quaternions and angle/axis rotations
+  * `lerp` for matrices and `slerp` for quaternions
+  * Projection matrices for camera
+  * 2x3 and 3x4 matrices as transformations
+  * Flexible way to build transformations
+  * Matrix inverse
