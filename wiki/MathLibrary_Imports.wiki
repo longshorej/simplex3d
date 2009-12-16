@@ -9,8 +9,6 @@ Math library is separated into one base module and several mutually independent 
   * Float module (floatm)
   * Double (doublem)
 
-You can download a combination of modules that covers your needs. Or, alternatively, you can download a distribution with all the modules and remove the ones you do not use. Simply unzip the jar, remove the corresponding directories (intm, floatm or doublem), zip the remaining files and rename the resulting file to have `.jar` extension.
-
 Base module consist of boolean vectors and BaseMath object that performs operations on boolean vectors and contains convenient function to cast datatypes. To use the base module, insert the following imports:
 {{{
 import simplex3d.math._ // boolean vectors
@@ -73,5 +71,7 @@ import simplex3d.math.doublem._ // using full names for Double data types
 val m = Mat4(1) // the type of m is Mat4f
 val n = Mat3d(1) // the type of n is Mat3d
 }}}
+
+You can download a combination of modules that covers your needs. Or, alternatively, you can download a distribution with all the modules and remove the ones you do not use. Simply unzip the jar, remove the corresponding directories (intm, floatm or doublem), zip the remaining files and rename the resulting file to have `.jar` extension. This works because the modules are mutually independent and can be compiled separately.
 
 [MathLibrary#Guide Back to Index]
