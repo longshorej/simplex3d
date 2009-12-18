@@ -1,5 +1,5 @@
 #summary Using overloaded imports to suit your needs.
-#labels Phase-Implementation,Phase-Deploy
+#labels Phase-Deploy,User-Guide
 
 [MathLibrary#Guide Index]
 
