@@ -7,7 +7,7 @@
 Math library is separated into one base module and several mutually independent modules:
   * Integer module (intm)
   * Float module (floatm)
-  * Double (doublem)
+  * Double module (doublem)
 
 Base module consist of boolean vectors and BaseMath object that performs operations on boolean vectors and contains convenient function to cast datatypes. To use the base module, insert the following imports:
 {{{
