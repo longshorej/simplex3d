@@ -1,5 +1,5 @@
 #summary Differences with GLSL
-#labels Phase-Implementation
+#labels User-Guide
 
 [MathLibrary#Guide Index]
 
