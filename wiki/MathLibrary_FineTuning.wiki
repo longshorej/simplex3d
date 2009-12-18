@@ -1,4 +1,5 @@
 #summary Performance and fine tuning.
+#labels Phase-Deploy,User-Guide
 
 [MathLibrary#Guide Index]
 
@@ -14,3 +15,5 @@ Initially there was a plan to make a compiler plugin. However after evaluating n
 Escape analysis seems to eliminate temporary new objects in the critical sections of the code, giving results that are very close to the results with temporary variable management the compiler plugin was supposed to do.<br/>
 JVM can optimise code at a lower level and managing temporary valiriables manually or via compiler plugin can interfere with that process causing the code to perform slower in some cases.<br/>
 Additionally, JVM will continue to improve as it always does. So even if the compiler plugin is capable of giving marginally better results now, that will not always be the case.
+
+[MathLibrary#Guide Back to Index]
