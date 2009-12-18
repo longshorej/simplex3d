@@ -9,7 +9,7 @@ Math library is separated into one base module and several mutually independent 
   * Float module (floatm)
   * Double module (doublem)
 
-Base module consist of boolean vectors and BaseMath object that performs operations on boolean vectors and contains convenient function to cast datatypes. To use the base module insert the following imports:
+Base module consist of boolean vectors and BaseMath object that performs operations on boolean vectors and contains convenient function to cast primitive data types. To use the base module insert the following imports:
 {{{
 import simplex3d.math._ // boolean vectors
 import simplex3d.math.BaseMath._ // casting and some boolean operations
