@@ -1,4 +1,5 @@
 #summary Some examples on how to use the MathLibrary
+#labels User-Guide
 
 [MathLibrary#Guide Index]
 
