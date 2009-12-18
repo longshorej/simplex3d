@@ -29,6 +29,7 @@ val eyeCoords = modelView.transformPoint(p)
   * [MathLibrary_Imports Using imports]
   * [MathLibrary_Examples List of examples]
   * [MathLibrary_vsGLSL Differences with GLSL]
+  * [MathLibrary_FineTuning Performance and Fine Tuning]
 
 -----
 
