@@ -1,5 +1,5 @@
 #summary Main reference page for MathLibrary
-#labels Featured,Phase-Implementation,Phase-Deploy
+#labels Featured,Phase-Deploy,User-Guide
 
 The library mimics GLSL so it is easy to use. Additional benefit of being similar to GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
 
