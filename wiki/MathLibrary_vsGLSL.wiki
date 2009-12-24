@@ -90,6 +90,21 @@ val m = Mat2(1, 2, 3, 4)
 val n = Mat3(Vec3.UnitX, Vec3.UnitY, Vec3.UnitZ)
 }}}
 
+== Matrix accessors ==
+
+Writing with swizzling does not work for matrix accessors. Instead you can modify the upper part of the matrix while leaving the lower part intact by assigning smaller vectors as columns.
+
+{{{
+val m = Mat4(1)
+m(0).xyzw = Vec4(4) //compile time error
+m(1).xyz = Vec3(3) //compile time error
+m(2).xy = Vec2(2) //compile time error
+
+m(0) = Vec4(4) //works: coordinates xyzw of column 0 are modified
+m(1) = Vec3(3) //works: coordinates xyz of column 1 are modified
+m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
+}}}
+
 == Casting Vectors ==
 
 Casting vectors is similar to casting primitives, if a primitive can be automatically converted, so can the vector. For example:
