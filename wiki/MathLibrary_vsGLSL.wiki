@@ -71,15 +71,6 @@ def foo(v: AnyVec3) = 2*v
 def bar(m: AnyMat3) :Mat3 = m*Mat3(2)
 }}}
 
-== Matrix as multidimensional array ==
-
-Writing into matrix using array notation is different from GLSL. Example:
-{{{
-val m = Mat3(1)
-m(0)(0) = 2 //compile time error
-m(0, 0) = 2 //works
-}}}
-
 == Matrix constructors ==
 
 Unlike GLSL, matrix constructors do not accept an arbitrary mix of floats and vectors. You can specify all the values or all the columns to construct a matrix.
@@ -90,12 +81,22 @@ val m = Mat2(1, 2, 3, 4)
 val n = Mat3(Vec3.UnitX, Vec3.UnitY, Vec3.UnitZ)
 }}}
 
-== Matrix accessors ==
+== Matrix as multidimensional array ==
+
+Writing into matrix using array notation is different from GLSL. Example:
+{{{
+val m = Mat3(1)
+m(0)(0) = 2 //compile time error
+m(0, 0) = 2 //works
+}}}
+
+== Modifying matrix columns ==
 
 Writing with swizzling does not work for matrix accessors. Instead you can modify the upper part of the matrix while leaving the lower part intact by assigning smaller vectors as columns.
 
 {{{
 val m = Mat4(1)
+
 m(0).xyzw = Vec4(4) //compile time error
 m(1).xyz = Vec3(3) //compile time error
 m(2).xy = Vec2(2) //compile time error
