@@ -29,7 +29,7 @@ import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 }}}
 
 == Swizzling ==
-Only `xyzw` and `rgba` swilling modes are supported for integer and floating point vectors. Chain swizzling (eg: v.wyxz.yx) is supported for read operations but not supported for write operations (v.wyxz.yx = u will not compile).
+`xyzw`, `rgba`, and `stpq` swilling is supported for all vector types. Chain swizzling (eg: `v.wyxz.yx`) is supported for read operations but not supported for write operations (eg: `v.wyxz.yx = u` will not compile).
 
 == Constants ==
 
