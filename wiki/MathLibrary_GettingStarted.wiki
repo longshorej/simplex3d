@@ -22,3 +22,5 @@ val modelView = view*model
 
 val eyeCoords = modelView.transformPoint(p)
 }}}
+
+[MathLibrary#Guide Back to Index]
