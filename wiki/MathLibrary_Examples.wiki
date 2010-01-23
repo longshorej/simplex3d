@@ -113,11 +113,11 @@ val orientation = tf.transofrmVector(u)
 // Template: Transform(translation, rotation)
 // Template: Transform(rotation, scale)
 // InverseTransform avoids matrix inverse, same templates as Transform
-val model = Transform(Vec3(0, 1, 0), radians(60), Vec3.UnitY, 2) //model: Mat3x4
-val view = InverseTransform(cam.translation, cam.rotation, cam.scale) //view: Mat3x4
+val model = Transform3(Vec3(0, 1, 0), radians(60), Vec3.UnitY, Vec3(2)) //model: Mat3x4
+val view = InverseTransform3(cam.translation, cam.rotation, cam.scale) //view: Mat3x4
 val modelView = view*model // modelView: Mat3x4
 
-val complicated = Translation(u)*Scale(s1)*Rotation(q1)*Scale(s2)*Translation(v)
+val complicated = Translation3(u)*Scale3(s1)*Rotation3(q1)*Scale3(s2)*Translation3(v)
 // first p is translated by v, then scaled by s2, then rotated by q1,
 // then scaled by s1 and finally translated by u
 val p = complicated.transformPoint(point)
