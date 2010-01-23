@@ -148,6 +148,7 @@ Below is a quick reference of functions included into the MathLibrary that are n
 == Casting ==
 
 Scala native casting `asInstanceOf[Type]` looks somewhat odd in math code. To make the code more readable it is recommended to use these casts:
+  * bool(x)
   * byte(x)
   * short(x)
   * int(x)
@@ -166,12 +167,10 @@ val b = int(sin(Pi/2)*100)
   * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
   * `approxEqual` to compare floating point numbers, vectors and matrices
-  * functions to generate random float, int and boolean vectors
   * Quaternions and angle/axis rotations
   * `lerp` for matrices and `slerp` for quaternions
   * Projection matrices for camera
   * 2x3 and 3x4 matrices as transformations
   * Flexible way to build transformations
-  * Matrix inverse
 
 [MathLibrary#Guide Back to Index]
