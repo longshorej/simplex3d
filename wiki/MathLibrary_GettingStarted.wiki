@@ -16,8 +16,8 @@ val translation = Vec3(1, 2, 3)
 val rotation = quatFrom(radians(60), normalize(Vec3(1))
 val scale = Vec3(1, 2, 1)
 
-val model = Transform(translation, rotation, scale)
-val view = InverseTransform(cam.translation, cam.rotation, cam.scale)
+val model = Transform3(translation, rotation, scale)
+val view = InverseTransform3(cam.translation, cam.rotation, cam.scale)
 val modelView = view*model
 
 val eyeCoords = modelView.transformPoint(p)
