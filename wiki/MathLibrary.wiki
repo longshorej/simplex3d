@@ -3,29 +3,9 @@
 
 The library mimics GLSL so it is easy to use. Additional benefit of being similar to GLSL is that you can recycle your GLSL skills using a familiar set of constructs and functions. If you are new to GLSL then using simplex3d mathlib should make it easier for you to use GLSL in the future.
 
-== Getting started ==
-
-Download simplex3dMath.jar and add it to your classpath. In your scala file, use the following imports:
-{{{
-import simplex3d.math.floatm.renamed._ //using short names for Float data types
-import simplex3d.math.floatm.FloatMath._ //using all float functions
-}}}
-
-Below is a short example on how to construct and use the model-view matrix:
-{{{
-val translation = Vec3(1, 2, 3)
-val rotation = quatFrom(radians(60), normalize(Vec3(1))
-val scale = Vec3(1, 2, 1)
-
-val model = Transform(translation, rotation, scale)
-val view = InverseTransform(cam.translation, cam.rotation, cam.scale)
-val modelView = view*model
-
-val eyeCoords = modelView.transformPoint(p)
-}}}
-
 -----
 == Guide ==
+  * [MathLibrary_GettingStarted Getting started]
   * [MathLibrary_Imports Using imports]
   * [MathLibrary_Examples List of examples]
   * [MathLibrary_vsGLSL Differences with GLSL]
