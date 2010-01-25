@@ -40,8 +40,8 @@ val t = 0.5f*(s + v)
 
 //Matrix multiplication
 val m = Mat4(2)
-val n = Mat4x3(col0, col1, col2)
-val t = m*n //t: Mat4x3
+val n = Mat4(col0, col1, col2, col3)
+val t = m*n //t: Mat4
 
 // Basic operations on vectors
 val len = length(v)
@@ -83,17 +83,17 @@ val n4 = noise4(v) //n4: Vec4
 if (approxEqual(u, v, 0.0001f)) println("approx")
 
 //Quaternions and angle/axis rotations
-val q1 = quatFrom(radians(30), Vec3.UnitX)
-val q2 = quatFrom(radians(45), Vec3.UnitY)
+val q1 = quaternion(radians(30), Vec3.UnitX)
+val q2 = quaternion(radians(45), Vec3.UnitY)
 val q = q2*q1 // first rotaty by q1 then by q2
-val v = q*Vec3(1, 1, 1) //rotate Vec3(1, 1, 1) by q
+val v = rotate(Vec3(1, 1, 1), q) //rotate Vec3(1, 1, 1) by q
 
-val r1 = rotationMatFrom(q)
-val r2 = rotationMatFrom(radians(180), normalize(Vec3(1, 1, 1))
+val r1 = rotationMat(q)
+val r2 = rotationMat(radians(180), normalize(Vec3(1, 1, 1))
 
 val result = Vec3(0)
-val angle1 = angleAxisFrom(r1, result); val axis1 = Vec3(result)
-val angle2 = angleAxisFrom(q2, result); val axis2 = Vec3(result)
+val angle1 = angleAxis(r1, result); val axis1 = Vec3(result)
+val angle2 = angleAxis(q2, result); val axis2 = Vec3(result)
 
 //`lerp` for matrices and `slerp` for quaternions
 val interpolatedMat = lerp(m0, m1, 0.4f)
@@ -103,24 +103,13 @@ val q3 = slerp(q1, q2, 0.8f)
 val camPerspective = perspective(fieldOfView, aspectRatio, near, far)
 val camOrtho = ortho(left, right, bottom, top, near, far)
 
-//2x3 and 3x4 matrices as transformations
-val tf = Mat3x4(1)
-val position = tf.transofrmPoint(v)
-val orientation = tf.transofrmVector(u)
-
 // Flexible way to build transformations
 // Template: Transform(translation, rotation, scale)
 // Template: Transform(translation, rotation)
 // Template: Transform(rotation, scale)
 // InverseTransform avoids matrix inverse, same templates as Transform
-val model = Transform3(Vec3(0, 1, 0), radians(60), Vec3.UnitY, Vec3(2)) //model: Mat3x4
-val view = InverseTransform3(cam.translation, cam.rotation, cam.scale) //view: Mat3x4
-val modelView = view*model // modelView: Mat3x4
-
-val complicated = Translation3(u)*Scale3(s1)*Rotation3(q1)*Scale3(s2)*Translation3(v)
-// first p is translated by v, then scaled by s2, then rotated by q1,
-// then scaled by s1 and finally translated by u
-val p = complicated.transformPoint(point)
+val model = Transform3(Vec3(0, 1, 0), radians(60), Vec3.UnitY, Vec3(2))
+val view = InverseTransform3(cam.translation, cam.rotation, cam.scale)
 
 //Matrix inverse
 val inv = inverse(transformationMatrix)
