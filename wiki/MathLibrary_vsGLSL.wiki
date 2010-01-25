@@ -123,19 +123,6 @@ v = u // compile time error, since double cannot be promoted to float
 v = Vec3f(u) // works
 }}}
 
-== Casting Matrices ==
-
-To cast float matrices to doubles or vice versa, use vector or primitive accessors as arguments in the corresponding constructor:
-{{{
-// using primitive accessors
-val a = Mat2f(1)
-val b = Mat2d(a.m00, a.m01, a.m10, a.m11)
-
-// using vector accessors
-val m = Mat3d(1)
-val n = Mat3f(m(0), m(1), m(2))
-}}}
-
 == Modf ==
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
 
@@ -167,10 +154,9 @@ val b = int(sin(Pi/2)*100)
   * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
   * `approxEqual` to compare floating point numbers, vectors and matrices
-  * Quaternions and angle/axis rotations
+  * functions for quaternion, matrix, and angle/axis rotation
   * `lerp` for matrices and `slerp` for quaternions
-  * Projection matrices for camera
-  * 2x3 and 3x4 matrices as transformations
-  * Flexible way to build transformations
+  * projection matrices
+  * flexible way to build and use transformations
 
 [MathLibrary#Guide Back to Index]
