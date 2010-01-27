@@ -104,12 +104,10 @@ val camPerspective = perspective(fieldOfView, aspectRatio, near, far)
 val camOrtho = ortho(left, right, bottom, top, near, far)
 
 // Flexible way to build transformations
-// Template: Transform(translation, rotation, scale)
-// Template: Transform(translation, rotation)
-// Template: Transform(rotation, scale)
-// InverseTransform avoids matrix inverse, same templates as Transform
-val model = Transform3(Vec3(0, 1, 0), radians(60), Vec3.UnitY, Vec3(2))
-val view = InverseTransform3(cam.translation, cam.rotation, cam.scale)
+val tf1 = Transform3() scale(2) rotate(radians(60)) translate(Vec3(1, 2, 0))
+val tf2 = Transform3.Identity scale(2) rotate(radians(60)) translate(Vec3(1, 2, 0)) invert()
+val tf3 = Transform3(scale, rotation, translation)
+val tf4 = Transform3.inverse(scale, rotation, translation)
 
 //Matrix inverse
 val inv = inverse(transformationMatrix)
