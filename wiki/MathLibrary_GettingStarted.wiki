@@ -12,9 +12,9 @@ import simplex3d.math.floatm.FloatMath._ //using all float functions
 
 Below is a short example on how to construct and use the model-view matrix:
 {{{
-val translation = Vec3(1, 2, 3)
-val rotation = quaternion(radians(60), normalize(Vec3(1))
 val scale = Vec3(1, 2, 1)
+val rotation = quaternion(radians(60), normalize(Vec3(1))
+val translation = Vec3(1, 2, 3)
 
 val model = Transform3(scale, rotation, translation)
 val view = Transform3.inverse(cam.scale, cam.rotation, cam.translation)
