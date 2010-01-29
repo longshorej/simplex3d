@@ -104,8 +104,8 @@ val camPerspective = perspective(fieldOfView, aspectRatio, near, far)
 val camOrtho = ortho(left, right, bottom, top, near, far)
 
 // Flexible way to build transformations
-val tf1 = Transform3() scale(2) rotate(radians(60)) translate(Vec3(1, 2, 0))
-val tf2 = Transform3.Identity scale(2) rotate(radians(60)) translate(Vec3(1, 2, 0)) invert()
+val tf1 = Transform3() scale(2) rotateX(radians(60)) translate(Vec3(1, 2, 0))
+val tf2 = Transform3.Identity scale(2) rotateX(radians(60)) translate(Vec3(1, 2, 0)) invert()
 val tf3 = Transform3(scale, rotation, translation)
 val tf4 = Transform3.inverse(scale, rotation, translation)
 
