@@ -76,9 +76,12 @@ def bar(m: AnyMat3) :Mat3 = m*Mat3(2)
 Unlike GLSL, matrix constructors do not accept an arbitrary mix of floats and vectors. You can specify all the values or all the columns to construct a matrix.
 Example:
 {{{
-val s = Mat4(2) // a 4x4 matrix with 2 on diagonal
 val m = Mat2(1, 2, 3, 4)
 val n = Mat3(Vec3.UnitX, Vec3.UnitY, Vec3.UnitZ)
+
+// similar to GLSL
+val s = Mat4(2) // a 4x4 matrix with 2 on diagonal
+val t = Mat3(s) // a 3x3 matrix, equal to upper left 3x3 sub-matrix of s
 }}}
 
 == Matrix as multidimensional array ==
@@ -104,23 +107,6 @@ m(2).xy = Vec2(2) //compile time error
 m(0) = Vec4(4) //works: coordinates xyzw of column 0 are modified
 m(1) = Vec3(3) //works: coordinates xyz of column 1 are modified
 m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
-}}}
-
-== Casting Vectors ==
-
-Casting vectors is similar to casting primitives, if a primitive can be automatically converted, so can the vector. For example:
-{{{
-val v = Vec3f(1)
-val u = Vec3i(2)
-v = u // integer vector u is promoted to the float vector
-}}}
-
-In cases when the primitive type cannot be promoted, you have to do a manual cast:
-{{{
-val v = Vec3f(1)
-val u = Vec3d(2)
-v = u // compile time error, since double cannot be promoted to float
-v = Vec3f(u) // works
 }}}
 
 == Modf ==
@@ -149,14 +135,37 @@ val a = float(java.lang.Math.PI) //this is just an example, the constant Pi is d
 val b = int(sin(Pi/2)*100)
 }}}
 
+== Transformations ==
+
+Mat2x3 and Mat3x4 are extended to act as 2d and 3d transformations. Additionally there is a special syntax to quickly construct arbitrary transformations. The order of applied operations is from left to right, so the the leftmost transformation happens first.
+
+Examples:
+{{{
+// First rotate by 10 degrees, then translate then scale:
+val t = Mat2x3 rotate(radians(10)) translate(Vec2(30, 10)) scale(4) // t is Mat2x3
+
+t = t translate(Vec2(-10, 20)) rotate(radians(-40))
+val p = t.transformPoint(point) // equivalent to t*Vec3(point, 1)
+val v = t.transformVector(vector) // equivalent to t*Vec3(vector, 0)
+
+// Alternative way to quickly build a transformation matrix,
+// the order of operations is the same as the order of arguments:
+val r = transformation(scale, rotation, translation) // r is Mat2x3
+
+// When transforming points or vectors, t will be applied first, then r:
+val combined = t concatenate(r) // combined is Mat2x3 equivalent to r*t
+val c = combined.transformPoint(point) // equivalent to r*t*Vec3(point, 1)
+}}}
+
 == Other additions ==
 
   * `:=` operator, equivalent to set(), but does not require parentheses
   * `lengthSquare` method if you want to avoid using square root
   * `approxEqual` to compare floating point numbers, vectors and matrices
-  * functions for quaternion, matrix, and angle/axis rotation
+  * `hasErrors` method to quickly check if your vector or matrix has any NaN or Inf values
+  * Quaternions
+  * Functions for quaternion, matrix, and angle/axis rotation
   * `lerp` for matrices and `slerp` for quaternions
-  * projection matrices
-  * flexible way to build and use transformations
+  * Functions to create projection matrices
 
 [MathLibrary#Guide Back to Index]
