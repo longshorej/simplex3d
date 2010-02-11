@@ -113,8 +113,8 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
 
 == Operators ==
-Prefix ++ and -- as well as postfix ++ and -- are not implemented to be consistent with Scala.
->>> operator is added to integer vectors to compensate for the lack of unsigned types.
+  * Prefix ++ and -- as well as postfix ++ and -- are not implemented to be consistent with Scala.
+  * >>> and >>>= operators are added to integer vectors to compensate for the lack of unsigned types.
 
 ----
 
