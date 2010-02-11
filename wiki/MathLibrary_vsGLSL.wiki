@@ -112,6 +112,10 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 == Modf ==
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
 
+== Operators ==
+Prefix ++ and -- as well as postfix ++ and -- are not implemented to be consistent with Scala.
+>>> operator is added to integer vectors to compensate for the lack of unsigned types.
+
 ----
 
 = Additions not present in GLSL =
