@@ -12,12 +12,21 @@ import simplex3d.math.floatm.FloatMath._ //using all float functions
 
 Below is a short example on how to construct and use the model-view matrix:
 {{{
-val scale = Vec3(1, 2, 1)
-val rotation = quaternion(radians(60), normalize(Vec3(1))
+val scale = Vec3(1)
+scale.xy += 2
+
+// Unlike multiplication, rotation operations are applied in order
+// from left to right.
+val rotation = Quat4 rotateX(radians(60)) rotateY(radians(45))
 val translation = Vec3(1, 2, 3)
 
-val model = transformation(scale, rotation, translation)
-val view = inverseTransformation(cam.scale, cam.rotation, cam.translation)
+// Again, transformation operations are applied in order from left
+// to right and can be chained indefinitely in any desired order.
+val model = Mat3x4 scale(scale) rotate(rotation) translate(translation)
+
+// There are also a shorthand methods that compute standard
+// transformations more efficiently.
+val view = inverseTransformation(cam.scale, rotationMat(cam.rotation), cam.translation)
 val modelView = model.concatenate(view)
 
 val eyeCoords = modelView.transformPoint(p)
