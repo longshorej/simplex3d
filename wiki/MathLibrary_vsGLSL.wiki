@@ -28,6 +28,9 @@ If desired, you can change type declarations to be exactly the same as in GLSL u
 import simplex3d.math.{Vec3 => vec3, Vec3i => ivec3, Vec3b => bvec3}
 }}}
 
+== Unsigned types ==
+Unsigned types `uint`, `uvec2`, `uvec3`, and `uvec4` are not present to be consistent with Scala.
+
 == Swizzling ==
 `xyzw`, `rgba`, and `stpq` swilling is supported for all vector types. Chain swizzling (eg: `v.wyxz.yx`) is supported for read operations but not supported for write operations (eg: `v.wyxz.yx = u` will not compile).
 
@@ -118,30 +121,78 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 
 ----
 
-= Additions not present in GLSL =
+= Additions to GLSL =
 
-Below is a quick reference of functions included into the MathLibrary that are not present in GLSL.
+Below is a quick reference of functions and constructs included into the MathLibrary that are not present in GLSL.
 
 == Casting ==
 
 Scala native casting `asInstanceOf[Type]` looks somewhat odd in math code. To make the code more readable it is recommended to use these casts:
   * bool(x)
-  * byte(x)
-  * short(x)
+  * byte(x) // not in GLSL
+  * short(x) // not in GLSL
   * int(x)
-  * long(x)
+  * long(x) // not in GLSL
   * float(x)
-  * double(x)
+  * double(x) // not in GLSL
 
 Examples:
 {{{
-val a = float(java.lang.Math.PI) //this is just an example, the constant Pi is defined in FloatMath
+val a = byte(log(2))
 val b = int(sin(Pi/2)*100)
 }}}
 
 == Transformations ==
 
-Mat2x3 and Mat3x4 are extended to act as 2d and 3d transformations. Additionally there is a special syntax to quickly construct arbitrary transformations. The order of applied operations is from left to right, so the the leftmost transformation happens first.
+Mat2x3 and Mat3x4 are extended to act as 2d and 3d transformations. Additionally there is a special syntax to quickly construct arbitrary transformations. The order of applied operations is from left to right, so the the leftmost operation happens first.
+
+To make a new transformation, start by writing the matrix type followed by the desired sequence of transformation operations:
+{{{
+val t0 = Mat3x4 rotateX(radians(10)) translate(Vec3(0, 1, 0))
+//       ^ equivalent to using a constant Mat3x4.Identity (but more efficient)
+}}}
+
+To append operations to an existing transformation, start by writing a variable name of the existing transformation:
+{{{
+val t1 = t0 scale(2) rotateY(radians(30))
+}}}
+
+The 2-d transformation operations are:
+  * scale(vec2)
+  * scale(scalar)
+  * rotate(radians)
+  * translate(vec2)
+  * concatenate(mat2x2), concatenates a combination of rotation/scale
+  * concatenate(mat2x3), concatenates a transformation
+
+The 3-d transformation operations are:
+  * scale(vec3)
+  * scale(scalar)
+  * rotate(quaternions)
+  * rotate(radians, axis)
+  * rotateX(radians)
+  * rotateY(radians)
+  * rotateZ(radians)
+  * translate(vec3)
+  * concatenate(mat3x3), concatenates a combination of rotation/scale
+  * concatenate(mat3x4), concatenates a transformation
+
+Additionally 2x3 and 3x4 matrices have special methods to transform points and vectors:
+{{{
+{
+  val u = Vec2(1)
+  val t = Mat2x3(1)
+  val p = t.transformPoint(u) // equivalent to t*Vec3(u, 1)
+  val v = t.transformVector(u) // equivalent to t*Vec3(u, 0)
+}
+
+{
+  val u = Vec3(1)
+  val t = Mat3x4(1)
+  val p = t.transformPoint(u) // equivalent to t*Vec4(u, 1)
+  val v = t.transformVector(u) // equivalent to t*Vec4(u, 0)
+}
+}}}
 
 Examples:
 {{{
@@ -163,13 +214,13 @@ val c = combined.transformPoint(point) // equivalent to r*t*Vec3(point, 1)
 
 == Other additions ==
 
-  * `:=` operator, equivalent to set(), but does not require parentheses
-  * `lengthSquare` method if you want to avoid using square root
-  * `approxEqual` to compare floating point numbers, vectors and matrices
-  * `hasErrors` method to quickly check if your vector or matrix has any NaN or Inf values
-  * Quaternions
-  * Functions for quaternion, matrix, and angle/axis rotation
-  * `lerp` for matrices and `slerp` for quaternions
-  * Functions to create projection matrices
+  * Quaternions.
+  * `:=` operator, equivalent to set(), but does not require parentheses.
+  * `lengthSquare` method as an alternative to dot(u, u).
+  * `approxEqual` to compare floating point numbers, vectors and matrices.
+  * `hasErrors` method to quickly check if your vector or matrix has any NaN or Inf values.
+  * Functions for quaternion, matrix, and angle/axis rotation.
+  * `lerp` for matrices and `slerp` for quaternions.
+  * Functions to create projection matrices.
 
 [MathLibrary#Guide Back to Index]
