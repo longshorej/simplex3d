@@ -62,18 +62,6 @@ val finalConstant = ConstVec3(1, 1, 1)
 finalConstant = mutable //compile time error, since val cannot be reassigned
 }}}
 
-When writing functions, you can support both constant and mutable types without implicit conversions. To accomplish this, use the common supertype AnyVec:
-{{{
-//This function will trigger an implicit conversion if v is ConstVec3.
-def foo(v: Vec3) = 2*v
-
-//This function will accept both ConstVec3 and Vec3 without implicit conversions
-def foo(v: AnyVec3) = 2*v
-
-//Similar for matrices:
-def bar(m: AnyMat3) :Mat3 = m*Mat3(2)
-}}}
-
 == Matrix constructors ==
 
 Unlike GLSL, matrix constructors do not accept an arbitrary mix of floats and vectors. You can specify all the values or all the columns to construct a matrix.
@@ -113,11 +101,63 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 }}}
 
 == Modf ==
+
 `modf(x: float, i: *float)` is missing because of the lack of pointers in the language. The vector versions of modf are present.
 
 == Operators ==
+
   * Prefix ++ and -- as well as postfix ++ and -- are not implemented to be consistent with Scala.
   * >>> and >>>= operators are added to integer vectors to compensate for the lack of unsigned types.
+
+== Functions ==
+
+`in` and `out` attributes are supported via type aliasing. For example, GLSL `in vec3` becomes `inVec3`.
+
+`in/out` mappring to prefixes:
+|| *GLSL attribute* || *Simplex3d type prefix* ||
+|| default (no prefix) || in ||
+|| in || in ||
+|| out || out ||
+|| inout || out ||
+
+It is important to remember that GLSL default (no attribute) maps to `in` prefix in simplex3d. There are subtle but important differences with the way default (no prefix) arguments are handled. If you do not specify the prefix, then the argument is both `in` and `out` depending on the circumstances. This is demonstrated in the following example:
+
+|| *GLSL* || *Simplex3d* || *Can trigger implicit conversions* || *Visibility of the argument changes outside the function* ||
+|| vec3 || inVec3 || from Vec3i to Vec3 || cannot modify the argument ||
+|| in vec3 || inVec3 || from Vec3i to Vec3 || cannot modify the argument ||
+|| out vec3 || outVec3 || none || visible outside the function ||
+|| inout vec3 || outVec3 || none || visible outside the function ||
+|| _not supported_ || Vec3 || from Vec3i to Vec3, from ConstVec3(i) to Vec3 || visible outside the function *if the argument was not converted* ||
+
+Examples explaining the use of `in` prefix:
+{{{
+// This function will trigger an implicit conversion if v is ConstVec3.
+def foo(v: Vec3) = 2*v
+
+// This function will accept both ConstVec3 and Vec3 without implicit conversions
+def foo(v: inVec3) = 2*v
+
+// Similar for matrices:
+def bar(m: inMat3) :Mat3 = m*Mat3(2)
+}}}
+
+To understand why it is important to use the prefix `out` consider the following example:
+{{{
+def foo(v: Vec3) { v *= 2 }
+val i = Vec3i(1)
+foo(i) // i is converted to Vec3 and the new instance is passed to foo,
+       // the new instance is modified and the changes are lost.
+println(i) // prints "Vec3i(1, 1, 1)"
+}}}
+
+To prevent this behaviour use the `out` prefix:
+{{{
+def foo(v: outVec3) { v *= 2 }
+val i = Vec3i(1)
+foo(i) // compile time error
+}}}
+
+The prefixes `in` and `out` are optional and you can get the desired functionality without using them. However it is recommended to always use the prefixes. This will clearly state your intentions and help you to avoid bugs.
 
 ----
 
