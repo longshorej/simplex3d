@@ -237,7 +237,7 @@ Additionally 2x3 and 3x4 matrices have special methods to transform points and v
 Examples:
 {{{
 // First rotate by 10 degrees, then translate then scale:
-val t = Mat2x3 rotate(radians(10)) translate(Vec2(30, 10)) scale(4) // t is Mat2x3
+var t = Mat2x3 rotate(radians(10)) translate(Vec2(30, 10)) scale(4) // t is Mat2x3
 
 t = t translate(Vec2(-10, 20)) rotate(radians(-40))
 val p = t.transformPoint(point) // equivalent to t*Vec3(point, 1)
