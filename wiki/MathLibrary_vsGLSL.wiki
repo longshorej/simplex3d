@@ -115,7 +115,7 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 
 `in/out` mappring to prefixes:
 || *GLSL attribute* || *Simplex3d type prefix* ||
-|| default (no prefix) || in ||
+|| default (no attribute) || in ||
 || in || in ||
 || out || out ||
 || inout || out ||
