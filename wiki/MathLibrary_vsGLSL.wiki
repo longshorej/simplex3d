@@ -120,7 +120,7 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 || out || out ||
 || inout || out ||
 
-It is important to remember that GLSL default (no attribute) maps to `in` prefix in simplex3d. There are subtle but important differences with the way default (no prefix) arguments are handled. If you do not specify the prefix, then the argument is both `in` and `out` depending on the circumstances. This is demonstrated in the following example:
+It is important to remember that GLSL default (no attribute) maps to `in` prefix in simplex3d. There are subtle but important differences with the way default (no prefix) arguments are handled. If you do not specify the prefix, then the argument can be either `in` or `out` depending on the circumstances. To understand how it works, consider the following table:
 
 || *GLSL* || *Simplex3d* || *Can trigger implicit conversions* || *Visibility of the argument changes outside the function* ||
 || vec3 || inVec3 || from Vec3i to Vec3 || cannot modify the argument ||
