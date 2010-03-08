@@ -37,7 +37,8 @@ rs(0) *= 3 // operations on matrix columns: first column is scaled by 3
 val d = rs*Vec3(1, 2, 3) // matrix-vector multiplication
 val translation = d*r // vector-matrix multiplication aka transpose multiplication
 
-// Again, transformation operations are applied in order from left
+// Constructing transformation matrices.
+// Transformation operations are applied in order from left
 // to right and can be chained indefinitely in any desired order.
 val model = Mat3x4 scale(scale) rotate(rotation) translate(translation)
 
