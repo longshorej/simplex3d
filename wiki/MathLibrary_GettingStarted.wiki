@@ -29,7 +29,6 @@ val both = second*first
 val rotation = Quat4 rotateX(radians(60)) rotateY(radians(45))
 
 val s = Mat3(2) // 3x3 matrix with 2 on diagonal
-// All conversions between quaternions, angle-axis and matrices are supported
 val r = rotationMat(first) // conversion from quaternion to matrix
 val rs = r*s // matrix multiplication
 rs(0) *= 3 // operations on matrix columns: first column is scaled by 3
@@ -45,6 +44,7 @@ val model = Mat3x4 scale(scale) rotate(rotation) translate(translation)
 // There are also a shorthand methods that compute standard
 // transformations more efficiently.
 val view = inverseTransformation(cam.scale, rotationMat(cam.rotation), cam.translation)
+
 // Concatenating transformation is similar to multiplying matrices,
 // but from left to right, so the leftmost transformation happens first.
 val modelView = model.concatenate(view)
