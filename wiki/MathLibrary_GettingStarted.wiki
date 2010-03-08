@@ -10,15 +10,32 @@ import simplex3d.math.floatm.renamed._ //using short names for Float data types
 import simplex3d.math.floatm.FloatMath._ //using all float functions
 }}}
 
-Below is a short example on how to construct and use the model-view matrix:
+Below is a short example highlighting some of the features:
 {{{
-val scale = Vec3(1)
-scale.xy += 2
+val a = Vec3(1, 2, 1) // factories to create new instances
+val b = Vec2(5) // short for Vec2(5, 5)
+val c = Vec3(b, 6) // flexible way to combine vectors of different size
+val scale = a*2 + c/b // vector operations
+scale.xy += 2 // swizzling and scalar addition with vectors
 
+// Working with quaternions.
+val first = quaternion(radians(60), Vec3.UnitX)
+val second = quaternion(radians(45), Vec3.UnitY)
+val both = second*first
+
+// Short way of doing the quaternion operations above.
 // Unlike multiplication, rotation operations are applied in order
 // from left to right.
 val rotation = Quat4 rotateX(radians(60)) rotateY(radians(45))
-val translation = Vec3(1, 2, 3)
+
+val s = Mat3(2) // 3x3 matrix with 2 on diagonal
+// All conversions between quaternions, angle-axis and matrices are supported
+val r = rotationMat(first) // conversion from quaternion to matrix
+val rs = r*s // matrix multiplication
+rs(0) *= 3 // operations on matrix columns: first column is scaled by 3
+
+val d = rs*Vec3(1, 2, 3) // matrix-vector multiplication
+val translation = d*r // vector-matrix multiplication aka transpose multiplication
 
 // Again, transformation operations are applied in order from left
 // to right and can be chained indefinitely in any desired order.
@@ -27,9 +44,11 @@ val model = Mat3x4 scale(scale) rotate(rotation) translate(translation)
 // There are also a shorthand methods that compute standard
 // transformations more efficiently.
 val view = inverseTransformation(cam.scale, rotationMat(cam.rotation), cam.translation)
+// Concatenating transformation is similar to multiplying matrices,
+// but from left to right, so the leftmost transformation happens first.
 val modelView = model.concatenate(view)
 
-val eyeCoords = modelView.transformPoint(p)
+val eyeCoords = modelView.transformPoint(p) // equivalent to modelView*Vec4(p, 1)
 }}}
 
 [MathLibrary#Guide Back to Index]
