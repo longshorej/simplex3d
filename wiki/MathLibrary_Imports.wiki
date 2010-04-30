@@ -83,6 +83,6 @@ val n = Mat3d(1) // the type of n is Mat3d
 }}}
 
 = Choosing Modules =
-You can download a combination of modules that covers your needs. Or, alternatively, you can download a distribution with all the modules and remove the ones you do not use. Simply unzip the jar, remove the corresponding directories (intm, floatm or doublem), zip the remaining files and rename the resulting file to have `.jar` extension. This works because the modules are mutually independent and can be compiled separately.
+You can download a combination of modules that covers your needs. Or, alternatively, you can download the source code distribution and run "ant custom-jar" task. You will be prompted which modules to include.
 
 [MathLibrary#Guide Back to Index]
