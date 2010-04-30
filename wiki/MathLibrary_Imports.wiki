@@ -83,6 +83,6 @@ val n = Mat3d(1) // the type of n is Mat3d
 }}}
 
 = Choosing Modules =
-You can download a combination of modules that covers your needs. Or, alternatively, you can download the source code distribution and run "ant custom-jar" task. You will be prompted which modules to include.
+You can download a combination of modules that covers your needs. Or, alternatively, you can download the source code distribution and run "ant custom-jar" task. You will be prompted which modules should be packaged in a jar.
 
 [MathLibrary#Guide Back to Index]
