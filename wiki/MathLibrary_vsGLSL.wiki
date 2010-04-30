@@ -122,12 +122,12 @@ m(2) = Vec2(2) //works: coordinates xy of column 2 are modified
 
 It is important to remember that GLSL default (no attribute) maps to `in` prefix in simplex3d. There are subtle but important differences with the way default (no prefix) arguments are handled. If you do not specify the prefix, then the argument can be either `in` or `out` depending on the circumstances. To understand how it works, consider the following table:
 
-|| *GLSL* || *Simplex3d* || *Can trigger implicit conversions* || *Visibility of the argument changes outside the function* ||
+|| *GLSL* || *Simplex3d* || *Can trigger implicit conversions* || *Are argument changes persistent after the function call?* ||
 || vec3 || inVec3 || from Vec3i to Vec3 || cannot modify the argument ||
 || in vec3 || inVec3 || from Vec3i to Vec3 || cannot modify the argument ||
-|| out vec3 || outVec3 || none || visible outside the function ||
-|| inout vec3 || outVec3 || none || visible outside the function ||
-|| _not supported_ || Vec3 || from Vec3i to Vec3, from ConstVec3(i) to Vec3 || visible outside the function *if the argument was not converted* ||
+|| out vec3 || outVec3 || none || modifications are persistent after the function call ||
+|| inout vec3 || outVec3 || none || modifications are persistent after the function call ||
+|| _not supported_ || Vec3 || from Vec3i to Vec3, from ConstVec3(i) to Vec3 || persistent *if the argument was not converted* ||
 
 Examples explaining the use of `in` prefix:
 {{{
