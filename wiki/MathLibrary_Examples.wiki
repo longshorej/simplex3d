@@ -100,8 +100,8 @@ val interpolatedMat = lerp(m0, m1, 0.4f)
 val q3 = slerp(q1, q2, 0.8f)
 
 //Projection matrices for setting 3d camera
-val camPerspective = perspective(fieldOfView, aspectRatio, near, far)
-val camOrtho = ortho(left, right, bottom, top, near, far)
+val camPerspective = perspectiveProj(fieldOfView, aspectRatio, near, far)
+val camOrtho = orthoProj(left, right, bottom, top, near, far)
 
 // Flexible way to build transformations
 val tf1 = Mat3x4 scale(2) rotateX(radians(60)) translate(Vec3(1, 2, 0))
