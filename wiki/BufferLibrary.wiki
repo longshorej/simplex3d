@@ -14,17 +14,17 @@ object BufferExample {
 
   def main(args: Array[String]) {
     val size = 10
-    
+
     // read as Vec3f, the backing store is an array of half floats
     val vertex = DataArray[Vec3f, HalfFloat](size)
-    
+
     // read as Vec3f, the backing store is an array of normalized signed shorts
     val normal = DataArray[Vec3f, NSShort](size)
-    
+
     // read as Vec4f, the backing store is an array of normalized unsigned bytes
     val color = DataArray[Vec4f, NUByte](size)
 
-    
+
     // fill our arrays with some random data
     val random = new java.util.Random(1)
     def r = random.nextFloat
@@ -39,12 +39,12 @@ object BufferExample {
       interleavedVertex,
       interleavedNormal,
       interleavedColor,
-      interleavedTexture
+      interleavedTexture // this sequence is empty
     ) = interleave(
       vertex,
       normal,
       color,
-      DataSeq[Vec2f, RawFloat]
+      DataSeq[Vec2f, RawFloat] // a placeholder to generate an empty sequence
     )(vertex.size)
 
     // check for shared content
