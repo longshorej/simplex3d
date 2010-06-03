@@ -1,0 +1,55 @@
+#summary Main reference page for BufferLibrary
+
+= Example =
+{{{
+import simplex3d.math._
+import simplex3d.math.floatm._
+import simplex3d.math.floatm.FloatMath._
+
+import simplex3d.buffer._
+import simplex3d.buffer.floatm._
+
+
+object BufferExample {
+
+  def main(args: Array[String]) {
+    val size = 10
+    
+    // read as Vec3f, the backing store is an array of half floats
+    val vertex = DataArray[Vec3f, HalfFloat](size)
+    
+    // read as Vec3f, the backing store is an array of normalized signed shorts
+    val normal = DataArray[Vec3f, NSShort](size)
+    
+    // read as Vec4f, the backing store is an array of normalized unsigned bytes
+    val color = DataArray[Vec4f, NUByte](size)
+
+    
+    // fill our arrays with some random data
+    val random = new java.util.Random(1)
+    def r = random.nextFloat
+    for (i <- 0 until size) {
+      vertex(i) = Vec3f(r, r, r)*(r*10)
+      normal(i) = normalize(Vec3f(r, r, r))
+      color(i) = Vec4f(r, r, r, r)
+    }
+
+    // interleave the arrays into one buffer
+    val (
+      interleavedVertex,
+      interleavedNormal,
+      interleavedColor,
+      interleavedTexture
+    ) = interleave(
+      vertex,
+      normal,
+      color,
+      DataSeq[Vec2f, RawFloat]
+    )(vertex.size)
+
+    // check for shared content
+    println("shared: " + vertex.sharesContent(normal))
+    println("sharedInterleaved: " + interleavedVertex.sharesContent(interleavedNormal))
+  }
+}
+}}}
