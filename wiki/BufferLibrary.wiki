@@ -4,16 +4,16 @@
 
   * *Designed to integrate seemelessly with mathlib.*
   * *Very easy to iterate.*
-  * *Simple and convinient API to create new sequences.*
+  * *Simple and convinient API to create new buffers.*
   * *Support for index buffers.*
   * *On-the-fly primitive type conversion.*
-  * *Easy to copy sequence and convert between different types.*
+  * *Easy to copy buffers and convert between different types.*
   * *Easy to create multiple views of the same data.*
   * *Flexible typing system.*
-  * *Read-only sequence types.*
+  * *Read-only buffer types.*
   * *Support for arrays and direct buffers.*
-  * *Support for interleaved sequences.*
-  * *One line of code to create an interleaved sequence types.*
+  * *Support for interleaved buffers.*
+  * *One line of code to create an interleaved buffer.*
   * *Minimal overhead.*
   * *Specialized for primitive types.*
   * *Maximum performance on bulk copy, very good performance on bulk conversion.*
