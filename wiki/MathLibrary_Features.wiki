@@ -1,0 +1,21 @@
+#summary Math library, list of features.
+
+= Features =
+
+  * *Concise syntax.*
+  * *Consistent API.*
+  * *Constant-vector and constant-matrix expressions.*
+  * *Standard vector and matrix operations.*
+  * *Swizzling.*
+  * *A complete set of standard shader functions.*
+  * *Quaternions.*
+  * *Conversions between rotation matrix, quaternion, and angle/axis.*
+  * *Easy to use 2d and 3d transformation matrices.*
+  * *Lerp and slerp.*
+  * *Projections.*
+
+= Snippets =
+
+{{{
+// TODO
+}}}
