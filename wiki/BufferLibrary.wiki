@@ -1,6 +1,64 @@
 #summary Main reference page for BufferLibrary
 
+= Features =
+
+  * *Designed to integrate seemelessly with mathlib.*
+  * *Very easy to iterate.*
+  * *Simple and convinient API to create new sequences.*
+  * *Support for index buffers.*
+  * *On-the-fly primitive type conversion.*
+  * *Easy to copy sequence and convert between different types.*
+  * *Easy to create multiple views of the same data.*
+  * *Flexible typing system.*
+  * *Read-only sequence types.*
+  * *Support for arrays and direct buffers.*
+  * *Support for interleaved sequences.*
+  * *One line of code to create an interleaved sequence types.*
+  * *Minimal overhead.*
+  * *Specialized for primitive types.*
+  * *Maximum performance on bulk copy, very good performance on bulk conversion.*
+  * *Integrated with scala.collection.*
+  * *Out of the box integration with opengl.*
+
+
+= Snippets =
+
+Iterating over sequences and Mathlib integration:
+{{{
+    // vertices, a vertex buffer.
+    // normals, a normal buffer.
+    // lines, result buffer to store lines.
+
+    var i = 0; while (i < vertices.size) {
+      val vertex = vertices(i) // reading Vec3
+      
+      lines(i*2) = vertex // writing Vec3
+      lines(i*2 + 1) = vertex + normals(i) // combining math operations and writing
+
+      i += 1
+    }
+}}}
+
+Making new sequences:
+{{{
+    // size, sequence size.
+    // array, float array with some data.
+    
+    // Making an empty sequence backed by a direct buffer:
+    val normals = DataBuffer[Vec3, RawFloat](size)
+    
+    // Wrapping an existing array:
+    val vertices = DataArray[Vec3, RawFloat](array)
+}}}
+
+Indices:
+{{{
+// TODO
+}}}
+
+
 = Example =
+
 {{{
 import simplex3d.math._
 import simplex3d.math.floatm._
