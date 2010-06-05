@@ -3,22 +3,15 @@
 = Features =
 
   * *Designed to integrate seemelessly with mathlib.*
-  * *Very easy to iterate.*
-  * *Simple and convinient API to create new buffers.*
-  * *Support for index buffers.*
+  * *Simple and convinient API.*
   * *On-the-fly primitive type conversion.*
-  * *Easy to copy buffers and convert between different types.*
-  * *Easy to create multiple views of the same data.*
   * *Flexible typing system.*
   * *Read-only buffer types.*
-  * *Support for arrays and direct buffers.*
-  * *Support for interleaved buffers.*
-  * *One line of code to create an interleaved buffer.*
-  * *Minimal overhead.*
-  * *Specialized for primitive types.*
-  * *Maximum performance on bulk copy, very good performance on bulk conversion.*
+  * *Support for arrays, direct buffers, and interleaved buffers.*
+  * *Minimal overhead. Specialization for primitive types.*
+  * *Maximum performance on bulk copy and bulk conversion.*
   * *Integrated with scala.collection.*
-  * *Out of the box integration with opengl.*
+  * *Easy to integrate with opengl.*
 
 
 = Snippets =
