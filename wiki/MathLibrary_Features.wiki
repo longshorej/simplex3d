@@ -4,10 +4,10 @@
 
   * *Concise syntax.*
   * *Consistent API.*
-  * *Constant-vector and constant-matrix expressions.*
   * *Standard vector and matrix operations.*
+  * *Constant-vector and constant-matrix expressions.*
   * *Swizzling.*
-  * *A complete set of standard shader functions.*
+  * *A large set of standard functions.*
   * *Quaternions.*
   * *Conversions between rotation matrix, quaternion, and angle/axis.*
   * *Easy to use 2d and 3d transformation matrices.*
