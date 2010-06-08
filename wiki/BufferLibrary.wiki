@@ -218,7 +218,7 @@ object BufferExample {
     val random = new java.util.Random(1)
     def r = random.nextFloat
     for (i <- 0 until size) {
-      vertex(i) = Vec3f(r, r, r)*(r*10)
+      vertex(i) = Vec3f(r, r, r)*10
       normal(i) = normalize(Vec3f(r, r, r))
       color(i) = Vec4f(r, r, r, r)
     }
