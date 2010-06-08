@@ -11,12 +11,12 @@
   * *Minimal overhead. Specialization for primitive types.*
   * *Maximum performance on bulk copy and bulk conversion.*
   * *Integrated with scala.collection.*
-  * *Easy to integrate with opengl.*
+  * *Easy to integrate with OpenGL.*
 
 
 = Snippets =
 
-Iterating over sequences and Mathlib integration:
+*Mathlib integration:*
 {{{
     // vertices, a vertex buffer.
     // normals, a normal buffer.
@@ -32,7 +32,7 @@ Iterating over sequences and Mathlib integration:
     }
 }}}
 
-Making new sequences:
+*Making new sequences:*
 {{{
     // size, sequence size.
     // array, float array with some data.
@@ -44,11 +44,101 @@ Making new sequences:
     val vertices = DataArray[Vec3, RawFloat](array)
 }}}
 
-Indices:
+*On the fly conversion:*
 {{{
-// TODO
+    // Making a sequence backed by an array of normalized unsigned bytes.
+    val color = DataArray[Vec4, NUByte](10)
+
+    var i = 0; while (i < color.size) {
+      // Color buffer will contain red gradient.
+      val red = float(i + 1)/color.size
+
+      // A float vector representing an RGBA color is stored
+      // as 4 bytes which contain RGBA components, one per byte.
+      color(i) = Vec4(red, 0, 0, 1)
+
+      i += 1
+    }
 }}}
 
+*Typing system:*
+{{{
+    // Data must be backed by a normalized array (always in range [0, 1]).
+    def function1(data: DataArray[Vec3, _ <: Normalized]) {}
+    
+    // Data must be backed by an array of unsigned values (always positive).
+    def function2(data: DataArray[Vec3, _ <: Unsigned]) {}
+    
+    // Data must be backed by an array of shorts, either signed or unsigned.
+    def function3(data: DataArray[Vec3, _ <: RawShort]) {}
+    
+    // Data must be backed by an array of half-floats or floats.
+    def function4(data: DataArray[Vec3, _ <: FloatingPointType]) {}
+    
+    // Data must be backed by an array of values that can be converted to floats.
+    def function5(data: DataArray[Vec3, _ <: ReadableFloat]) {}
+}}}
+
+*Read-only buffers:*
+{{{
+    // A sample buffer.
+    val vertices = DataBuffer[Vec3, RawFloat](100)
+    
+    // ReadOnly indicates that the function is only interested in reading the data.
+    def fun1(data: ReadOnlyDataBuffer[Vec3, _ <: ReadableFloat]) {}
+
+    // Short way of declaring an argument as ReadOnly.
+    def fun2(data: roDataBuffer[Vec3, _ <: ReadableFloat]) {}
+
+    // Read-write sequence can pass as read-only sequence
+    fun1(vertices)
+
+    // An enforced read-only sequence.
+    val enforced = vertices.asReadOnly()
+    // Any attempt to write into an enforced read-only sequence will result in an exception.
+    enforced.asInstanceOf[DataBuffer[Vec3, RawFloat]](0) = Vec3(0)
+}}}
+
+*Aarrays, direct buffers, and interleaved buffers:*
+{{{
+    // A sequence backed by an array:
+    val normals = DataArray[Vec3, RawFloat](100)
+
+    // A sequence backed by a direct buffer:
+    val vertices = DataBuffer[Vec3, RawFloat](100)
+
+    // iVertex and iNormal are interleaved and share the same buffer:
+    val (iVertices, iNormals) = interleave(vertices, normals)(vertices.size)
+
+    // Making empty interleaved sequences:
+    val (emptyVertices, emptyNormals) = interleave(
+      DataSeq[Vec3, RawFloat], DataSeq[Vec3, RawFloat]
+    )(100)
+}}}
+
+*Specialization for primitive types:*
+{{{
+    // A sequence of ints, backed by an array of shorts.
+    val data = DataArray[Int1, SShort](1000)
+
+    var i = 0; while (i < data.size) {
+      // No boxing/unboxing takes place:
+      data(i) = i
+    }
+}}}
+
+*Bulk copy and bulk conversion:*
+{{{
+
+}}}
+
+*Integration with scala.collection:*
+{{{
+}}}
+
+*Integration with OpenGL:*
+{{{
+}}}
 
 = Example =
 
@@ -97,10 +187,6 @@ object BufferExample {
       color,
       DataSeq[Vec2f, RawFloat] // a placeholder to generate an empty sequence
     )(vertex.size)
-
-    // check for shared content
-    println("shared: " + vertex.sharesContent(normal))
-    println("sharedInterleaved: " + interleavedVertex.sharesContent(interleavedNormal))
   }
 }
 }}}
