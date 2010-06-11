@@ -6,50 +6,9 @@
 
 Download simplex3dMath.jar and add it to your classpath. In your scala file, use the following imports:
 {{{
+import simplex3d.math._ // Using primitive casting.
 import simplex3d.math.floatm.renamed._ // Using short names for Float data types.
 import simplex3d.math.floatm.FloatMath._ // Using all float functions.
-}}}
-
-Below is a short example highlighting some of the features:
-{{{
-val a = Vec3(1, 2, 1) // Factories to create new instances.
-val b = Vec2(5) // Short for Vec2(5, 5).
-val c = Vec3(b, 6) // Flexible way to combine vectors of different size.
-val scale = a*2 + c/b // Vector operations.
-scale.xy += 2 // Swizzling and scalar addition with vectors.
-
-// Working with quaternions.
-val first = quaternion(radians(60), Vec3.UnitX)
-val second = quaternion(radians(45), Vec3.UnitY)
-val both = second*first
-
-// Short way of doing the quaternion operations above.
-// Unlike multiplication, rotation operations are applied in order
-// from left to right.
-val rotation = Quat4 rotateX(radians(60)) rotateY(radians(45))
-
-val s = Mat3(2) // 3x3 matrix with 2 on diagonal.
-val r = rotationMat(first) // Conversion from quaternion to matrix.
-val rs = r*s // Matrix multiplication.
-rs(0) *= 3 // Operations on matrix columns: first column is scaled by 3.
-
-val d = rs*Vec3(1, 2, 3) // Matrix-vector multiplication.
-val translation = d*r // Vector-matrix multiplication, aka transpose multiplication.
-
-// Constructing transformation matrices.
-// Transformation operations are applied in order from left
-// to right and can be chained indefinitely in any desired order.
-val model = Mat3x4 scale(scale) rotate(rotation) translate(translation)
-
-// There are also a shorthand methods that compute standard
-// transformations more efficiently.
-val view = inverseTransformation(cam.scale, rotationMat(cam.rotation), cam.translation)
-
-// Concatenating transformation is similar to multiplying matrices,
-// but from left to right, so the leftmost transformation happens first.
-val modelView = model.concatenate(view)
-
-val eyeCoords = modelView.transformPoint(p) // Equivalent to modelView*Vec4(p, 1).
 }}}
 
 [MathLibrary#Guide Back to Index]
