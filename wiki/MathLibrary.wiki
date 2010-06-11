@@ -11,5 +11,3 @@ The library mimics GLSL so it is easy to use. Additional benefit of being simila
   * [MathLibrary_Examples List of examples]
   * [MathLibrary_vsGLSL Differences with GLSL]
   * [MathLibrary_FineTuning Performance and Fine Tuning]
-
------
