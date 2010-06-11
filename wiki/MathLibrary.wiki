@@ -13,7 +13,3 @@ The library mimics GLSL so it is easy to use. Additional benefit of being simila
   * [MathLibrary_FineTuning Performance and Fine Tuning]
 
 -----
-
-== Feedback ==
-
-Any feedback regarding code correctness and optimization is welcomed. However keep in mind that the aim of the library is to stay as close to GLSL as possible, things that are astray from this path are unlikely to be implemented.
