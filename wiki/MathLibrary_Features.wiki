@@ -1,12 +1,15 @@
 #summary Math library, list of features.
 
+[MathLibrary#Guide Index]
+
 = Features =
 
   * *Concise syntax.*
   * *Consistent API.*
   * *Standard vector and matrix operations.*
-  * *Constant-vector and constant-matrix expressions.*
+  * *Scalar-vector and scalar-matrix expressions.*
   * *Swizzling.*
+  * *Constant vectors and matrices.*
   * *A large set of standard functions.*
   * *Quaternions.*
   * *Conversions between rotation matrix, quaternion, and angle/axis.*
@@ -16,6 +19,141 @@
 
 = Snippets =
 
+*Concise syntax:*
 {{{
-// TODO
+    val u = Vec3(2)
+    val a = Vec2(1, 2)
+
+    println(u.xy + a*2) // short and powerful expressions.
 }}}
+
+*Standard vector and matrix operations:*
+{{{
+    val u = Vec3(2)
+    val v = Vec3(1, 2, 3)
+
+    val vectorSum = v + u
+    val componentMul = v*u
+
+    val m = Mat3(Vec3(1), Vec3(2), Vec3(3))
+    val n = Mat3(1)
+
+    val matrixSum = m + n
+    val matrixMul = m*n
+
+    val matrixVector = m*u
+    val vectorMatrix = u*m
+}}}
+
+*Scalar-vector and scalar-matrix expressions:*
+{{{
+    println(3*u)
+    println(1 + u) // adds 1 to each component
+
+    println(2*m)
+    println(1 - m) // subtracts each component from 1
+}}}
+
+*Swizzling:*
+{{{
+    println(u.yz)
+    println(u.zx)
+    println(u.xx + u.yx)
+
+    // rgba and stpq are also supported
+    println(u.rgb)
+    println(u.stp)
+
+    u.xy += 1
+    u.rb *= 0.5
+}}}
+
+*Constant vectors and matrices:*
+{{{
+    val cu :ConstVec3 = u
+    val cv = ConstVec3(v)
+
+    val cm :ConstMat3 = m
+}}}
+
+*Standard functions:*
+{{{
+    println(min(u, v))
+    println(max(u, v))
+    println(clamp(u, 1, 2.5))
+    println(mix(u, v, 0.5))
+    println(smoothstep(0, 4, u))
+}}}
+
+*Quaternions:*
+{{{
+    // Rotations are applied in the order they appear: from left to right.
+    val q = Quat4 rotateX(radians(30)) rotateY(radians(45))
+    val rotated = q.rotateVector(u)
+}}}
+
+*Conversions between rotation matrix, quaternion, and angle/axis:*
+{{{
+    // To rotation matrix:
+    val m1 = rotationMat(q)
+    val m2 = rotationMat(radians(30), Vec3.UnitX)
+
+    // To quaternion:
+    val q1 = quaternion(m2)
+    val q2 = quaternion(radians(30), Vec3.UnitX)
+
+    // To angle/axis:
+    val axis1 = Vec3(0)
+    val angle1 = angleAxis(q2, axis2)
+    
+    val axis2 = Vec3(0)
+    val angle2 = angleAxis(m2, axis1)
+}}}
+
+*Easy to use 2d and 3d transformation matrices:*
+{{{
+    // Transformation operations are applied in the order they appear: from left to right.
+
+    // 3d transformations.
+    var t = Mat3x4 rotateX(radians(20)) scale(3) translate(Vec3(0, 10, 0))
+    t = t rotate(angle1, axis1) rotate(q1) concatenate(m1)
+
+    // 2d transformations.
+    val r = Mat2x3 translate(Vec2(2, 5)) scale(Vec2(1, 2)) rotate(radians(90))
+}}}
+
+*Lerp and slerp:*
+{{{
+    // mix is an alias of lerp for vectors.
+    val a = mix(u, v, 0.6)
+    val b = lerp(u, v, 0.6)
+    
+    val interpolatedMat = lerp(m1, m2, 0.3)
+
+    val interpolatedQuat = slerp(q1, q2, 0.7)
+}}}
+
+*Projections:*
+{{{
+    val aspect = float(width)/height
+    val near = 5
+    val far = 1000
+    
+    val angleY = radians(30)
+    val persp = perspectiveProj(angleY, aspect, near, far)
+
+    val h = 100/2
+    val ortho = orthoProj(-h*aspect, h*aspect, -h, h, near, far)
+}}}
+
+= Example =
+{{{
+    // A short example on how to construct a full model-view matrix and transform a point.
+    val p = Vec3(1, 5, 1)
+    val model = Mat3x4 scale(Vec3(1, 1, 3)) rotateZ(radians(45)) translate(Vec3(10, 5, 10))
+    val view = Mat3x4 rotateX(radians(30)) translate(Vec3(0, 0, -50)) invert
+    val modelView = model concatenate(view)
+    val transformed = modelView.transformPoint(p)
+}}}
+
+[MathLibrary#Guide Back to Index]
