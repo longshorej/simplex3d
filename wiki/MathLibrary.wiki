@@ -5,6 +5,7 @@ The library mimics GLSL so it is easy to use. Additional benefit of being simila
 
 -----
 == Guide ==
+  * [MathLibrary_Features Overview]
   * [MathLibrary_GettingStarted Getting started]
   * [MathLibrary_Imports Using imports]
   * [MathLibrary_Examples List of examples]
