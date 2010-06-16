@@ -1,4 +1,5 @@
 #summary Main reference page for BufferLibrary
+#labels User-Guide
 
 = Features =
 
@@ -81,7 +82,7 @@
     def function3(data: DataArray[Vec3, _ <: RawShort]) {}
     
     // Data must be backed by an array of half-floats or floats.
-    def function4(data: DataArray[Vec3, _ <: FloatingPointType]) {}
+    def function4(data: DataArray[Vec3, _ <: Fractional]) {}
     
     // Data must be backed by an array of values that can be converted to floats.
     def function5(data: DataArray[Vec3, _ <: ReadableFloat]) {}
@@ -93,13 +94,10 @@
     val vertices = DataBuffer[Vec3, RawFloat](100)
     
     // ReadOnly indicates that the function is only interested in reading the data.
-    def fun1(data: ReadOnlyDataBuffer[Vec3, _ <: ReadableFloat]) {}
-
-    // Short way of declaring an argument as ReadOnly.
-    def fun2(data: roDataBuffer[Vec3, _ <: ReadableFloat]) {}
+    def fun(data: ReadOnlyDataBuffer[Vec3, _ <: ReadableFloat]) {}
 
     // Read-write sequence can pass as read-only sequence.
-    fun1(vertices)
+    fun(vertices)
 
     // An enforced read-only sequence.
     val enforced = vertices.asReadOnly()
