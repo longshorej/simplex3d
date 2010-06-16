@@ -83,8 +83,8 @@ val n4 = noise4(v) //n4: Vec4
 if (approxEqual(u, v, 0.0001f)) println("approx")
 
 //Quaternions and angle/axis rotations
-val q1 = quaternion(radians(30), Vec3.UnitX)
-val q2 = quaternion(radians(45), Vec3.UnitY)
+val q1 = rotationQuat(radians(30), Vec3.UnitX)
+val q2 = rotationQuat(radians(45), Vec3.UnitY)
 val q = q2*q1 // first rotaty by q1 then by q2
 val v = rotate(Vec3(1, 1, 1), q) //rotate Vec3(1, 1, 1) by q
 
@@ -92,8 +92,8 @@ val r1 = rotationMat(q)
 val r2 = rotationMat(radians(180), normalize(Vec3(1, 1, 1))
 
 val result = Vec3(0)
-val angle1 = angleAxis(r1, result); val axis1 = Vec3(result)
-val angle2 = angleAxis(q2, result); val axis2 = Vec3(result)
+val angle1 = rotationAngle(r1, result); val axis1 = Vec3(result)
+val angle2 = rotationAngle(q2, result); val axis2 = Vec3(result)
 
 //`lerp` for matrices and `slerp` for quaternions
 val interpolatedMat = lerp(m0, m1, 0.4f)
@@ -105,9 +105,8 @@ val camOrtho = orthoProj(left, right, bottom, top, near, far)
 
 // Flexible way to build transformations
 val tf1 = Mat3x4 scale(2) rotateX(radians(60)) translate(Vec3(1, 2, 0))
-val tf2 = Mat3x4 scale(2) rotateX(radians(60)) translate(Vec3(1, 2, 0)) invert()
-val tf3 = transformation(scale, rotation, translation)
-val tf4 = inverseTransformation(scale, rotation, translation)
+val tf2 = transformation(scale, rotation, translation)
+val tf3 = inverseTransformation(scale, rotation, translation)
 
 //Matrix inverse
 val inv = inverse(transformationMatrix)
