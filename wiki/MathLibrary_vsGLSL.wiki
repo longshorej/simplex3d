@@ -256,7 +256,6 @@ val c = combined.transformPoint(point) // equivalent to r*t*Vec3(point, 1)
 
   * Quaternions.
   * `:=` operator, equivalent to set(), but does not require parentheses.
-  * `lengthSquare` method as an alternative to dot(u, u).
   * `approxEqual` to compare floating point numbers, vectors and matrices.
   * `hasErrors` method to quickly check if your vector or matrix has any NaN or Inf values.
   * Functions for quaternion, matrix, and angle/axis rotation.
