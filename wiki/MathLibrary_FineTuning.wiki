@@ -1,7 +1,8 @@
 #summary Performance and fine tuning.
-#labels Phase-Deploy,User-Guide
+#labels Phase-Implementation,User-Guide
 
 [MathLibrary#Guide Index]
+
 
 = Fine Tuning =
 
@@ -10,10 +11,13 @@ Escape analysis will make the code written with math library run 1.5 to 4 times 
 
 In conjunction with `-XX:+DoEscapeAnalysis`, you can experiment with `-XX:+AggressiveOpts` and `-XX:+UseCompressedOops` options for additional minor performance boost.
 
+
 == Compiler plugin ==
-Initially there was a plan to make a compiler plugin. However after evaluating new JVM switch -XX:+DoEscapeAnalysis the compiler plugin was cancelled.<br/>
-Escape analysis seems to eliminate temporary new objects in the critical sections of the code, giving results that are very close to the results with temporary variable management the compiler plugin was supposed to do.<br/>
-JVM can optimise code at a lower level and managing temporary valiriables manually or via compiler plugin can interfere with that process causing the code to perform slower in some cases.<br/>
-Additionally, JVM will continue to improve as it always does. So even if the compiler plugin is capable of giving marginally better results now, that will not always be the case.
+
+A compiler plugin to inline vector math may be implemented some time after 2.8.0.final release.
+
+Escape analysis seems to eliminate temporary new objects in the critical sections of the code, giving results that are very close to the results with temporary variable management the compiler plugin can do. JVM can optimise code at a lower level and managing temporary valiriables manually or via compiler plugin can interfere with that process causing the code to perform slower in some cases.
+It does not seem to be feasible to manage temporary variables via a compiler plugin. On the other hand inlining vector math can noticably boost the performance and may be implemented in the future.
+
 
 [MathLibrary#Guide Back to Index]
