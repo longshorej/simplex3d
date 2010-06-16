@@ -99,15 +99,15 @@
     val m2 = rotationMat(radians(30), Vec3.UnitX)
 
     // To quaternion:
-    val q1 = quaternion(m2)
-    val q2 = quaternion(radians(30), Vec3.UnitX)
+    val q1 = rotationQuat(m2)
+    val q2 = rotationQuat(radians(30), Vec3.UnitX)
 
     // To angle/axis:
     val axis1 = Vec3(0)
-    val angle1 = angleAxis(q2, axis2)
+    val angle1 = rotationAngle(q2, axis2)
     
     val axis2 = Vec3(0)
-    val angle2 = angleAxis(m2, axis1)
+    val angle2 = rotationAngle(m2, axis1)
 }}}
 
 *Easy to use 2d and 3d transformation matrices:*
@@ -124,12 +124,8 @@
 
 *Lerp and slerp:*
 {{{
-    // mix is an alias of lerp for vectors.
-    val a = mix(u, v, 0.6)
-    val b = lerp(u, v, 0.6)
-    
+    val interpolatedVec = mix(u, v, 0.6)
     val interpolatedMat = lerp(m1, m2, 0.3)
-
     val interpolatedQuat = slerp(q1, q2, 0.7)
 }}}
 
@@ -151,7 +147,7 @@
     // A short example on how to construct a full model-view matrix and transform a point.
     val p = Vec3(1, 5, 1)
     val model = Mat3x4 scale(Vec3(1, 1, 3)) rotateZ(radians(45)) translate(Vec3(10, 5, 10))
-    val view = Mat3x4 rotateX(radians(30)) translate(Vec3(0, 0, -50)) invert
+    val view = inverse(Mat3x4 rotateX(radians(30)) translate(Vec3(0, 0, -50)))
     val modelView = model concatenate(view)
     val transformed = modelView.transformPoint(p)
 }}}
