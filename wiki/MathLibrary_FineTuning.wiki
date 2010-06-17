@@ -14,7 +14,7 @@ In conjunction with `-XX:+DoEscapeAnalysis`, you can experiment with `-XX:+Aggre
 
 == Compiler plugin ==
 
-A compiler plugin to inline vector math may be implemented some time after 2.8.0.final release.
+An optional compiler plugin to inline vector math may be implemented some time after 2.8.0.final release.
 
 Escape analysis seems to eliminate temporary new objects in the critical sections of the code, giving results that are very close to the results with temporary variable management the compiler plugin can do. JVM can optimise code at a lower level and managing temporary valiriables manually or via compiler plugin can interfere with that process causing the code to perform slower in some cases.
 It does not seem to be feasible to manage temporary variables via a compiler plugin. On the other hand inlining vector math can noticably boost the performance and may be implemented in the future as an optional compiler plugin.
