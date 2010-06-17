@@ -1,4 +1,5 @@
 #summary Math library, list of features.
+#labels Phase-Deploy,User-Guide
 
 [MathLibrary#Guide Index]
 
@@ -99,15 +100,15 @@
     val m2 = rotationMat(radians(30), Vec3.UnitX)
 
     // To quaternion:
-    val q1 = rotationQuat(m2)
-    val q2 = rotationQuat(radians(30), Vec3.UnitX)
+    val q1 = quaternion(m2)
+    val q2 = quaternion(radians(30), Vec3.UnitX)
 
     // To angle/axis:
     val axis1 = Vec3(0)
-    val angle1 = rotationAngle(q2, axis2)
+    val angle1 = angleAxis(q2, axis1)
     
     val axis2 = Vec3(0)
-    val angle2 = rotationAngle(m2, axis1)
+    val angle2 = angleAxis(m2, axis2)
 }}}
 
 *Easy to use 2d and 3d transformation matrices:*
