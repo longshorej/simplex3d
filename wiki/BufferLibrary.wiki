@@ -1,5 +1,5 @@
 #summary Main reference page for BufferLibrary
-#labels User-Guide
+#labels User-Guide,Featured
 
 = Features =
 
@@ -7,10 +7,10 @@
   * *Simple and convinient API.*
   * *On-the-fly primitive type conversion.*
   * *Flexible typing system.*
-  * *Read-only buffer types.*
+  * *Read-only sequences.*
   * *Support for arrays, direct buffers, and interleaved buffers.*
   * *Minimal overhead. Specialization for primitive types.*
-  * *Maximum performance on bulk copy and bulk conversion.*
+  * *Maximum performance when copying sequences.*
   * *Integrated with scala.collection.*
   * *Easy to integrate with OpenGL.*
 
@@ -25,7 +25,7 @@
 
     var i = 0; while (i < vertices.size) {
       val vertex = vertices(i) // reading Vec3
-      
+
       lines(i*2) = vertex // writing Vec3
       lines(i*2 + 1) = vertex + normals(i) // combining math operations and writing
 
@@ -37,10 +37,10 @@
 {{{
     // size, sequence size.
     // array, float array with some data.
-    
+
     // Making an empty sequence backed by a direct buffer:
     val normals = DataBuffer[Vec3, RawFloat](size)
-    
+
     // Wrapping an existing array:
     val vertices = DataArray[Vec3, RawFloat](array)
 
@@ -56,7 +56,8 @@
 *On the fly conversion:*
 {{{
     // Making a sequence backed by an array of normalized unsigned bytes.
-    val color = DataArray[Vec4, NUByte](10)
+    // The data is converted to range [0, 1] for unsigned and [-1, 1] for signed integral numbers.
+    val color = DataArray[Vec4, UByte](10)
 
     var i = 0; while (i < color.size) {
       // Color buffer will contain red gradient.
@@ -72,31 +73,28 @@
 
 *Typing system:*
 {{{
-    // Data must be backed by a normalized array (always in range [0, 1]).
-    def function1(data: DataArray[Vec3, _ <: Normalized]) {}
-    
     // Data must be backed by an array of unsigned values (always positive).
-    def function2(data: DataArray[Vec3, _ <: Unsigned]) {}
-    
+    def function2(data: DataArray[Vec3, Unsigned]) {}
+
     // Data must be backed by an array of shorts, either signed or unsigned.
-    def function3(data: DataArray[Vec3, _ <: RawShort]) {}
-    
+    def function3(data: DataArray[Vec3, RawShort]) {}
+
     // Data must be backed by an array of half-floats or floats.
-    def function4(data: DataArray[Vec3, _ <: Fractional]) {}
-    
+    def function4(data: DataArray[Vec3, Fractional]) {}
+
     // Data must be backed by an array of values that can be converted to floats.
-    def function5(data: DataArray[Vec3, _ <: ReadableFloat]) {}
+    def function5(data: DataArray[Vec3, ReadableFloat]) {}
 }}}
 
-*Read-only buffers:*
+*Read-only sequences:*
 {{{
     // A sample buffer.
     val vertices = DataBuffer[Vec3, RawFloat](100)
-    
-    // ReadOnly indicates that the function is only interested in reading the data.
-    def fun(data: ReadOnlyDataBuffer[Vec3, _ <: ReadableFloat]) {}
 
-    // Read-write sequence can pass as read-only sequence.
+    // "Read" indicates that the function is only interested in reading the data.
+    def fun(data: ReadDataBuffer[Vec3, ReadableFloat]) {}
+
+    // Read-write sequence can pass as read-sequence.
     fun(vertices)
 
     // An enforced read-only sequence.
@@ -133,14 +131,14 @@
     }
 }}}
 
-*Bulk copy and bulk conversion:*
+*Copying and converting sequences:*
 {{{
     // vertices, a vertex buffer.
 
     val copying = DataArray[Vec3, RawFloat](vertices.size)
     // The same performance as System.arraycopy().
     copying.put(vertices)
-    
+
     val converting = DataArray[Vec3, HalfFloat](vertices.size)
     // Converts components directly, does not create new objects.
     converting.put(vertices)
@@ -157,14 +155,14 @@
     if (vertices.forall(!hasErrors(_))) {
       println("No abnormal floating point values found.")
     }
-    
+
     // transformed is IndexedSeq[Vec3]
     val transformed =
       // Iterating using scala for-comprehension:
-      for (vertex <- vertices) yield { 
+      for (vertex <- vertices) yield {
         t.transformPoint(vertex)
       }
-    
+
     // copying IndexedSeq[Vec3] into DataSeq[Vec3, _]
     vertices.put(transformed)
 }}}
@@ -205,11 +203,11 @@ object BufferExample {
     // read as Vec3f, the backing store is an array of half floats
     val vertex = DataArray[Vec3f, HalfFloat](size)
 
-    // read as Vec3f, the backing store is an array of normalized signed shorts
-    val normal = DataArray[Vec3f, NSShort](size)
+    // read as Vec3f, the backing store is an array of signed shorts
+    val normal = DataArray[Vec3f, SShort](size)
 
-    // read as Vec4f, the backing store is an array of normalized unsigned bytes
-    val color = DataArray[Vec4f, NUByte](size)
+    // read as Vec4f, the backing store is an array of unsigned bytes
+    val color = DataArray[Vec4f, UByte](size)
 
 
     // fill our arrays with some random data
