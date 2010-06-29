@@ -179,7 +179,7 @@
 
     // Defining a vertex pointer with JOGL:
     gl.glverticesPointer(
-      vertices.components, vertices.bindingType,
+      vertices.components, vertices.rawType,
       vertices.byteStride, vertices.byteOffset
     )
 }}}
