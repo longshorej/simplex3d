@@ -3,7 +3,7 @@
 
 [MathLibrary#Guide Index]
 
-= Fine Tuning JVM Options =
+== JVM Options ==
 
 The library relies on JVM to optimise the code for performance. It is highly recommended to enable `-XX:+DoEscapeAnalysis` option on Java6u14 or later versions. This option is enabled by default on recent Java 7 builds.
 Escape analysis will make the code written with math library run much faster.
@@ -11,7 +11,7 @@ Escape analysis will make the code written with math library run much faster.
 In conjunction with `-XX:+DoEscapeAnalysis`, you can experiment with `-XX:+AggressiveOpts` and `-XX:+UseCompressedOops` options for additional minor performance boost.
 
 
-= Fine Tuning Garbage Collection =
+== Garbage Collection ==
 
 Modern JVMs can easily handle short-lived garbage objects. However continious supply of long-lived garbage can cause Garbage Collections to occur less often and take longer to finish. This may cause noticable jittering in animation. To prevent this, you should avoid leaking references produced by computation results into permanent objects.
 
