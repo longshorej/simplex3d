@@ -16,6 +16,7 @@
   * *Conversions between rotation matrix, quaternion, and angle/axis.*
   * *Easy to use 2d and 3d transformation matrices.*
   * *Lerp and slerp.*
+  * *Noise functions backed by simplex noise implementation.*
   * *Projections.*
 
 = Snippets =
