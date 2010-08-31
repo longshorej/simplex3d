@@ -72,10 +72,10 @@
 
 *Constant vectors and matrices:*
 {{{
-    val cu :ConstVec3 = u
+    val cu: ConstVec3 = u
     val cv = ConstVec3(v)
 
-    val cm :ConstMat3 = m
+    val cm: ConstMat3 = m
 }}}
 
 *Standard functions:*
