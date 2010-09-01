@@ -182,8 +182,7 @@ with MouseListener with MouseMotionListener with MouseWheelListener {
     model := model rotateZ radians(-0.08)
 
     // Stable caclculation: the matrix will never de-normalize.
-    // Quaternion re-normalization does not have to be done every frame.
-    //modelRotation := normalize(modelRotation rotateZ radians(-0.08))
+    //modelRotation := modelRotation rotateZ radians(-0.08)
     //model := initModel rotate modelRotation
   }
 
