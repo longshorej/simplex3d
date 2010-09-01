@@ -7,6 +7,7 @@ The library mimics GLSL so it is easy to use. Additional benefit of being simila
   * [MathLibrary_Features Overview]
   * [MathLibrary_GettingStarted Getting started]
   * [MathLibrary_Imports Using imports]
-  * [MathLibrary_Examples List of examples]
+  * [MathLibrary_Examples List of quick examples]
+  * [Example_SpinningBox Spinning Box with OpenGL]
   * [MathLibrary_vsGLSL Differences with GLSL]
   * [MathLibrary_FineTuning Performance and Fine Tuning]
