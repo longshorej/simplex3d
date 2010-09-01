@@ -1,6 +1,8 @@
 #summary Spinning box with JOGL.
 #labels User-Guide
 
+Requires: simplex3d-math-core, simplex3d-math-doublem, simplex3d-buffer-core, simplex3d-buffer-doublem, and jogl.
+
 {{{
 import java.awt._
 import java.awt.event._
@@ -12,7 +14,6 @@ import com.sun.opengl.util._
 import simplex3d.buffer._
 import simplex3d.buffer.doublem._
 import simplex3d.math._
-import simplex3d.math.intm._
 import simplex3d.math.doublem.renamed._
 import simplex3d.math.doublem.DoubleMath._
 
