@@ -1,0 +1,321 @@
+#summary Spinning box with JOGL.
+#labels User-Guide
+
+{{{
+import java.awt._
+import java.awt.event._
+
+import javax.media.opengl._
+import javax.media.opengl.GL._
+import com.sun.opengl.util._
+
+import simplex3d.buffer._
+import simplex3d.buffer.doublem._
+import simplex3d.math._
+import simplex3d.math.intm._
+import simplex3d.math.doublem.renamed._
+import simplex3d.math.doublem.DoubleMath._
+
+
+/**
+ *
+ * @author Aleksey Nikiforov (lex)
+ */
+object Box {
+
+  // Init view frame and setup JOGL.
+  def main(args: Array[String]) :Unit = {
+    val frame = new Frame("Box Example.")
+    val canvas = new GLCanvas()
+
+    canvas.addGLEventListener(new Box())
+    frame.add(canvas)
+    frame.setSize(640, 480)
+    val animator = new Animator(canvas)
+    frame.addWindowListener(new WindowAdapter() {
+      override def windowClosing(e: WindowEvent) {
+        new Thread(new Runnable() {
+          def run() {
+            animator.stop()
+            System.exit(0)
+          }
+        }).start()
+      }
+    })
+    frame.setVisible(true)
+    animator.start()
+  }
+}
+
+class Box extends GLEventListener
+with MouseListener with MouseMotionListener with MouseWheelListener {
+
+  val mouseSensitivity = 0.3
+  val wheelSensitivity = 10.0
+
+  var wireframe = false
+  var coolBackface = false
+
+  // Model, view, and projection.
+  val model = Mat3x4 translate(Vec3(-1, -1, 1)/2) scale(40)
+  val initModel: ConstMat3x4 = model
+  val modelRotation: Quat4 = Quat4.Identity
+
+  var camDistance = 150.0
+  var camAngleY = 20.0
+  var camAngleX = 40.0
+  val view = Mat3x4(0)
+  
+  val viewAngle = radians(30)
+  val near = 10
+  val far = 1000
+  val projection = Mat4(0)
+
+  // Arrays to communicate with OpenGL.
+  val matrixArray = new Array[Float](16)
+  val vectorArray = new Array[Float](4)
+  def toVectorArray(u: Vec4) = {
+    vectorArray(0) = float(u.x)
+    vectorArray(1) = float(u.y)
+    vectorArray(2) = float(u.z)
+    vectorArray(3) = float(u.w)
+    vectorArray
+  }
+
+  val numIds = 3
+  val ids = new Array[Int](numIds)
+
+  val CubeIndex = 0
+  val CubeVertex = 1
+  val CubeNormal = 2
+
+  // The front of the cube.
+  val quadIndex = IndexArray[UInt](
+    0, 2, 1,
+    0, 3, 2
+  )
+  val quadVertex = DataArray[Vec3, RawFloat](
+    Vec3(0, 0, 0),
+    Vec3(0, 1, 0),
+    Vec3(1, 1, 0),
+    Vec3(1, 0, 0)
+  )
+  val quadNormal = DataArray[Vec3, RawFloat](
+    Vec3(0, 0, 1),
+    Vec3(0, 0, 1),
+    Vec3(0, 0, 1),
+    Vec3(0, 0, 1)
+  )
+
+  // Transformations to place the remaining 5 sides of the cube
+  val backTransform = Mat3x4 rotateX(radians(180)) translate(Vec3(0, 1, -1))
+  val leftTransform = Mat3x4 rotateY(radians(-90)) translate(Vec3(0, 0, -1))
+  val rightTransform = Mat3x4 rotateY(radians(90)) translate(Vec3(1, 0, 0))
+  val bottomTransform = Mat3x4 rotateX(radians(90)) translate(Vec3(0, 0, -1))
+  val topTransform = Mat3x4 rotateX(radians(-90)) translate(Vec3(0, 1, 0))
+
+  // Creating cube index, vertex, and normal buffers using Scala collections.
+  val cubeIndex = IndexArray[UInt](
+    (for (i <- 0 until 6) yield { quadIndex.map(_ + i*4) }).flatten: _*
+  )
+  var cubeVertex = DataArray[Vec3, RawFloat](
+    quadVertex ++
+    quadVertex.map(backTransform.transformPoint(_)) ++
+    quadVertex.map(leftTransform.transformPoint(_)) ++
+    quadVertex.map(rightTransform.transformPoint(_)) ++
+    quadVertex.map(bottomTransform.transformPoint(_)) ++
+    quadVertex.map(topTransform.transformPoint(_)): _*
+  )
+  var cubeNormal = DataArray[Vec3, RawFloat](
+    quadNormal ++
+    quadNormal.map(backTransform.transformVector(_)) ++
+    quadNormal.map(leftTransform.transformVector(_)) ++
+    quadNormal.map(rightTransform.transformVector(_)) ++
+    quadNormal.map(bottomTransform.transformVector(_)) ++
+    quadNormal.map(topTransform.transformVector(_)): _*
+  )
+
+  def init(drawable: GLAutoDrawable) {
+    drawable.addMouseListener(this)
+    drawable.addMouseMotionListener(this)
+    drawable.addMouseWheelListener(this)
+
+    //drawable.setGL(new TraceGL(drawable.getGL(), System.err));
+    val gl = drawable.getGL
+    import gl._
+
+    // Gen VBOs.
+    glGenBuffers(numIds, ids, 0)
+
+    // Load VBOs.
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ids(CubeIndex))
+    glBufferData(
+      GL_ELEMENT_ARRAY_BUFFER, cubeIndex.byteSize,
+      cubeIndex.bindingBuffer(0), GL_STATIC_DRAW
+    )
+
+    glBindBuffer(GL_ARRAY_BUFFER, ids(CubeVertex))
+    glBufferData(
+      GL_ARRAY_BUFFER, cubeVertex.byteSize,
+      cubeVertex.bindingBuffer(0), GL_DYNAMIC_DRAW
+    )
+
+    glBindBuffer(GL_ARRAY_BUFFER, ids(CubeNormal))
+    glBufferData(
+      GL_ARRAY_BUFFER, cubeNormal.byteSize,
+      cubeNormal.bindingBuffer(0), GL_DYNAMIC_DRAW
+    )
+  }
+
+  def update(gl: GL) {
+    import gl._
+
+    // Update camera.
+    val rot = Mat3x4 rotateX(radians(-camAngleX)) rotateY(radians(camAngleY))
+    val loc = rot.transformVector(Vec3(0, 0, camDistance))
+    view := inverse(rot translate(loc))
+
+    // Update model.
+    // Unstable calculation: the matrix will slowly de-normalize over time due
+    // to accumulation of round-off errors.
+    model := model rotateZ radians(-0.08)
+
+    // Stable caclculation: the matrix will never de-normalize.
+    // Quaternion re-normalization does not have to be done every frame.
+    //modelRotation := normalize(modelRotation rotateZ radians(-0.08))
+    //model := initModel rotate modelRotation
+  }
+
+  def display(drawable: GLAutoDrawable) {
+    val gl = drawable.getGL
+    import gl._
+
+    update(gl)
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+    glEnable(GL_DEPTH_TEST)
+    glDepthFunc(GL_LEQUAL)
+    glEnable(GL_NORMALIZE)
+
+    glCullFace(GL_BACK)
+    if (coolBackface) glEnable(GL_CULL_FACE)
+    else glDisable(GL_CULL_FACE)
+
+    glLineWidth(2)
+    if (wireframe) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+
+    glEnable(GL_VERTEX_ARRAY)
+    glEnable(GL_INDEX_ARRAY)
+    glEnable(GL_NORMAL_ARRAY)
+
+    // Setup lighting.
+    glMatrixMode(GL.GL_MODELVIEW)
+    matrixToArray(view, matrixArray)
+    glLoadMatrixf(matrixArray, 0)
+
+    glEnable(GL_LIGHTING)
+
+    glEnable(GL_LIGHT0)
+    glLightfv(GL_LIGHT0, GL_POSITION, toVectorArray(Vec4(0.3, 0.7, 1, 0)), 0)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, toVectorArray(Vec4(0.73, 0.73, 0.73, 1)), 0)
+
+    glEnable(GL_LIGHT1)
+    glLightfv(GL_LIGHT1, GL_POSITION, toVectorArray(Vec4(-0.5, 2, -0.7, 0)), 0)
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, toVectorArray(Vec4(0.73, 0.73, 0.73, 1)), 0)
+
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, toVectorArray(Vec4(0.73, 0.73, 0.73, 1)), 0)
+
+    // Set modelView matrix.
+    glMatrixMode(GL.GL_MODELVIEW)
+    matrixToArray(model.concatenate(view), matrixArray)
+    glLoadMatrixf(matrixArray, 0)
+
+    // Bind VBOs and render.
+    glBindBuffer(GL_ARRAY_BUFFER, ids(CubeVertex))
+    glVertexPointer(
+      cubeVertex.components, cubeVertex.rawType,
+      cubeVertex.byteStride, cubeVertex.byteOffset
+    )
+
+    glBindBuffer(GL_ARRAY_BUFFER, ids(CubeNormal))
+    glNormalPointer(
+      cubeNormal.rawType,
+      cubeNormal.byteStride, cubeNormal.byteOffset
+    )
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ids(CubeIndex))
+    glDrawElements(GL_TRIANGLES, cubeIndex.size, cubeIndex.rawType, 0)
+
+
+    // Prevents videocard overheating for simple scenes.
+    Thread.sleep(1)
+
+    // Check for errors.
+    if (glGetError() != GL_NO_ERROR) {
+      System.err.println("GL error.")
+      System.exit(-1)
+    }
+  }
+
+  // Reacts to viewport changes.
+  def reshape(
+    drawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int
+  ) {
+    val gl = drawable.getGL
+    import gl._
+
+    // Update projection matrix
+    val aspect = float(width)/height
+    projection := perspectiveProj(viewAngle, aspect, near, far)
+    //projection := orthoProj(-50*aspect, 50*aspect, -50, 50, near, 1000)
+
+    gl.glMatrixMode(GL.GL_PROJECTION)
+    matrixToArray(projection, matrixArray)
+    glLoadMatrixf(matrixArray, 0)
+
+    gl.glMatrixMode(GL.GL_MODELVIEW)
+  }
+
+  def displayChanged(
+    drawable: GLAutoDrawable, modeChanged: Boolean, deviceChanged: Boolean
+  ) {}
+
+
+  // Mouse handling.
+  var prevMouseX = 0
+  var prevMouseY = 0
+
+  def mouseEntered(e: MouseEvent) {}
+  def mouseExited(e: MouseEvent) {}
+  def mousePressed(e: MouseEvent) {
+    prevMouseX = e.getX()
+    prevMouseY = e.getY()
+  }
+  def mouseReleased(e: MouseEvent) {}
+  def mouseClicked(e: MouseEvent) {
+    e.getButton match {
+      case MouseEvent.BUTTON1 => // Left click.
+        wireframe = !wireframe
+      case MouseEvent.BUTTON3 => // Right click.
+        coolBackface = !coolBackface
+    }
+  }
+  def mouseDragged(e: MouseEvent) {
+    val x = e.getX()
+    val y = e.getY()
+    val size = e.getComponent().getSize()
+
+    camAngleY -= mouseSensitivity*(360.0 * (x - prevMouseX)) / size.width
+    camAngleX += mouseSensitivity*(360.0 * (y - prevMouseY)) / size.height
+
+    prevMouseX = x
+    prevMouseY = y
+  }
+  def mouseMoved(e: MouseEvent) {}
+  def mouseWheelMoved(e: MouseWheelEvent) {
+    camDistance += e.getWheelRotation*wheelSensitivity
+  }
+}
+}}}
