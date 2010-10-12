@@ -42,7 +42,7 @@ val b = data.asBuffer() // returns the underlying buffer as java.nio.FloatBuffer
 println(b.isDirect)     // prints "true"
 }}}
 
-You may have noticed that both examples had an underlying sequence of Floats, Array[Float] in the first case and FloatBuffer in the second. The type of the underlying storage was defined by RawFloat parameter: DataArray[Vec3, RawFloat] and DataBuffer[Vec3, RawFloat]. By changing this parameter we can create wrappers with different storage type.
+You may have noticed that both examples had an underlying sequence of Floats, Array|Float| in the first case and FloatBuffer in the second. The type of the underlying storage was defined by RawFloat parameter: DataArray|Vec3, RawFloat| and DataBuffer|Vec3, RawFloat|. By changing this parameter we can create wrappers with different storage type.
 
 {{{
 val vertices = DataArray[Vec3, RawDouble](100) // the underlying storage is an array of Doubles
@@ -74,7 +74,7 @@ val backing = normals.backingSeq
 println(backing(0), backing(1), backing(2)) // println (0.300048828125, 0.5, 1.0)
 }}}
 
-So, there are two wrappers working together: an inner wrapper responsible for data convertion, and an outer wrapper rensposible for assembling vectors from components. Backing sequence (the inner wrapper) always has one component and the same data store as the parent object. In the example above normals has the type DataArray[Vec3, HalfFloat] and the type of normals.backingSeq is DataArray[Double1, HalfFloat]. Here Double1 means that we have a sequence of Doubles with 1 component.
+So, there are two wrappers working together: an inner wrapper responsible for data convertion, and an outer wrapper rensposible for assembling vectors from components. Backing sequence (the inner wrapper) always has one component and the same data store as the parent object. In the example above normals has the type DataArray|Vec3, HalfFloat| and the type of normals.backingSeq is DataArray|Double1, HalfFloat|. Here Double1 means that we have a sequence of Doubles with 1 component.
 
 {{{
 // We can create 1-tuple sequences directly.
