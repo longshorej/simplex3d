@@ -1,11 +1,9 @@
 #summary Buffer Library, Introduction.
 #labels Phase-Deploy,User-Guide
 
-= Summary =
+= Introduction =
 
 Low level 3d graphics APIs consume data as arrays of numbers. On the other hand, when you are writing your application, it is more convinient to work with arrays of vectors. The goal of Simplex3d Buffer framework is to bridge these two representations.
-
-= Introduction =
 
 There are two reasonable approaches to this problem on JVM:
 1. Store data as vector objects and convert it to an array of numbers when communitating with 3d API. This works well for data that changes every frame. However, the conversion overhead is wasteful when working with static data, such as models of terrain, buildings, and other non-animated objects.
