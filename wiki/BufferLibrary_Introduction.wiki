@@ -1,0 +1,99 @@
+#summary Buffer Library, Introduction.
+#labels Phase-Deploy,User-Guide
+
+= Summary =
+
+Low level 3d graphics APIs consume data as arrays of numbers. On the other hand, when you are writing your application, it is more convinient to work with arrays of vectors. The goal of Simplex3d Buffer framework is to bridge these two representations.
+
+= Introduction =
+
+There are two reasonable approaches to this problem on JVM:
+1. Store data as vector objects and convert it to an array of numbers when communitating with 3d API. This works well for data that changes every frame. However, the conversion overhead is wasteful when working with static data, such as models of terrain, buildings, and other non-animated objects.
+2. Store the data as an array of numbers and generate vectors when reading the data. The main advantage of this approach is having your data readily available to be rendered.
+
+Simplex3d Buffer uses the second, more efficient approach to storing the data. This is accomplished by creating wrapper objects that handle the translation between vectors and numbers.
+
+{{{
+val data = DataArray[Vec3, RawFloat](100) // creates a sequence of 100 vectors.
+
+// Ignore the RawFloat parameter for now, it will be explained shortly.
+// The data object will behave like Array[Vec3] in most respects.
+
+println(data.length)    // prints 100.
+data(0) = Vec3(1, 1, 1) // sets the first vector to (1, 1, 1).
+println(data(0))        // prints the first vector: (1, 1, 1).
+
+// The underlying array of numbers reflects the changes to the vertexData.
+
+val a = data.array        // returns the underlying array as Array[Float].
+println(a(0), a(1), a(2)) // prints (1, 1, 1) that was set earlier.
+data(0) = Vec3(2, 3, 4)   // sets the first vector to (2, 3, 4)
+println(a(0), a(1), a(2)) // this time it prints (2, 3, 4)
+}}}
+
+Arrays are certainly very useful, however, they are managed by JVM and can be moved to a different memory location when compacting the heap. On the other hand, native APIs have no concept of JVM managed memory and can only understand a static memory address. If we could pass an address of a Java array to a native API and the array was moved, then the application would become unstable and most likely crash. This is the reason 3d APIs require the use of direct buffers. Direct buffers are subclasses of java.nio.Buffer and are allocated outside the Java heap.
+
+{{{
+val data = DataBuffer[Vec3, RawFloat](100) // create a sequence of 100 vectors, backed by a direct buffer.
+
+// DataBuffer works like DataArray, but has an underlying buffer instead of an array.
+
+val b = data.asBuffer() // returns the underlying buffer as java.nio.FloatBuffer
+println(b.isDirect)     // prints "true"
+}}}
+
+You may have noticed that both examples had an underlying sequence of Floats, Array[Float] in the first case and FloatBuffer in the second. The type of the underlying storage was defined by RawFloat parameter: DataArray[Vec3, RawFloat] and DataBuffer[Vec3, RawFloat]. By changing this parameter we can create wrappers with different storage type.
+
+{{{
+val vertices = DataArray[Vec3, RawDouble](100) // the underlying storage is an array of Doubles
+val normals = DataArray[Vec3, HalfFloat](100)  // the underlying storage is an array of 16-bit Floats.
+
+// Of course, Java does not support HalfFloat, so the actual storage type is...
+
+val a: Array[Short] = normals.array
+
+// So what will happen when we read and write vectors?
+
+normals(0) = Vec3(0.3, 0.5, 1) // set the first vector to (0.3, 0.5, 1)
+println(normals(0))            // prints the first vector: (0.300048828125, 0.5, 1.0)
+
+// The numerical value of the x-component of the retrieved vector is different from the original.
+// Instead we have a number 0.300048828125 which is the closes representation of 0.3 using only 16 bits.
+
+// Now, let's examine the content of the array.
+
+println(a(0), a(1), a(2)) // prints (13517, 14336, 15360)
+}}}
+
+Looking at the content of the array directly is not very useful. However, the lower level API will see the data as a sequence of bytes and will make sense of the content if the HalfFloat format is supported. Meanwhile, in order to make sense of the data in our own code, we can use a backing sequence, which wraps the array and handles the conversion.
+
+{{{
+// We can use backingSeq to read one component at a time while applying the conversion.
+
+val backing = normals.backingSeq
+println(backing(0), backing(1), backing(2)) // println (0.300048828125, 0.5, 1.0)
+}}}
+
+So, there are two wrappers working together: an inner wrapper responsible for data convertion, and an outer wrapper rensposible for assembling vectors from components. Backing sequence (the inner wrapper) always has one component and the same data store as the parent object. In the example above normals has the type DataArray[Vec3, HalfFloat] and the type of normals.backingSeq is DataArray[Double1, HalfFloat]. Here Double1 means that we have a sequence of Doubles with 1 component.
+
+{{{
+// We can create 1-tuple sequences directly.
+
+val singleComponent = DataArray[Double1, HalfFloat](100) // creates a sequence of 100 doubles stored as HalfFloat.
+println(singleComponent eq singleComponent.backingSeq)   // prints "true"
+
+// backingSeq is always defined, for wrappers with 1 component backingSeq returns the wrapper itself.
+}}}
+
+
+Here are a couple of examples explaining how to read the type information:
+
+DataArray[Vec3, HalfFloat].
+  - Array means that the backing store is a Java array allocated on the heap.
+  - Vec3 means the sequence will behave similarly to Seq[Vec3].
+  - HalfFloat is the type of the raw data store, vectors components will be converted to HalfFloat before being written into the array.
+
+DataBuffer[Double1, RawFloat].
+  - Buffer means that the backing store is a direct buffer.
+  - Double1 means that the sequence will behave similarly to Seq[Double].
+  - RawFloat means that the values will be converted to float before being written into the underlying buffer.
