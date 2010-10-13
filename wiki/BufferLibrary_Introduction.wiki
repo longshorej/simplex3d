@@ -6,10 +6,10 @@
 Low level 3d graphics APIs consume data as arrays of numbers. On the other hand, when you are writing your application, it is more convinient to work with arrays of vectors. The goal of Simplex3d Buffer framework is to bridge these two representations.
 
 There are two reasonable approaches to this problem on JVM:
-1. Store data as vector objects and convert it to an array of numbers when communitating with 3d API. This works well for data that changes every frame. However, the conversion overhead is wasteful when working with static data, such as models of terrain, buildings, and other non-animated objects.
-2. Store the data as an array of numbers and generate vectors when reading the data. The main advantage of this approach is having your data readily available to be rendered.
+  # Store data as vector objects and convert it to an array of numbers when communitating with 3d API. This works well for data that changes every frame. However, the conversion overhead is wasteful when working with static data, such as models of terrain, buildings, and other non-animated objects.
+  # Store the data as an array of numbers and generate vectors when reading the data. The main advantage of this approach is having your data readily available to be rendered.
 
-Simplex3d Buffer uses the second, more efficient approach to storing the data. This is accomplished by creating wrapper objects that handle the translation between vectors and numbers.
+Simplex3d Buffer uses the second approach. This is accomplished by creating wrapper objects that handle the translation between vectors and numbers.
 
 {{{
 val data = DataArray[Vec3, RawFloat](100) // creates a sequence of 100 vectors.
@@ -84,7 +84,7 @@ println(singleComponent eq singleComponent.backingSeq)   // prints "true"
 }}}
 
 
-Here are a couple of examples explaining how to read the type information:
+The two examples below summarize how to read the type information:
 
 {{{
 DataArray[Vec3, HalfFloat]
