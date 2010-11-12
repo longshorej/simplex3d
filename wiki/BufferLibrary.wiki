@@ -13,6 +13,7 @@
   * *Maximum performance when copying sequences.*
   * *Integrated with scala.collection.*
   * *Easy to integrate with OpenGL.*
+  * *Compatible with any native API.*
 
 
 = Snippets =
