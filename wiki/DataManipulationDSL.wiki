@@ -1,4 +1,8 @@
 #labels User-Guide,Featured
+= Summary =
+
+Simplex3d Data DSL is designed to simplify access to raw numerical data that defines geometry and textures.
+
 
 = Features =
 
@@ -124,6 +128,7 @@
       vertices.byteStride, vertices.byteOffset
     )
 }}}
+
 
 = Example =
 
