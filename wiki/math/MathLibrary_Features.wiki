@@ -1,8 +1,0 @@
-#summary Math library, list of features.
-#labels Phase-Deploy,User-Guide
-
-[math/MathLibrary#Guide Index]
-
-= Features =
-
-[math/MathLibrary#Guide Back to Index]
