@@ -2,11 +2,11 @@
 
 = Features =
 
-  * *Seemeless integration with Simplex3d Math DSL.*
+  * *Seamless integration with Simplex3d Math DSL.*
   * *Simple and convinient API.*
   * *On-the-fly data conversion.*
   * *Support for arrays, direct buffers, and interleaved buffers.*
-  * *Minimal overhead. Specialization for primitive types.*
+  * *Specialization for primitive types.*
   * *Integrated with scala.collection.*
   * *Compatible with any native API.*
 
