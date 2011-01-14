@@ -1,6 +1,9 @@
 #labels Featured,Phase-Deploy
+= Summary =
 
 Simplex3d Math DSL behaves like GLSL and has the same set of functions. If you are familiar with GLSL, then you are ready to use Simplex3d Math. Conversely, when you are learning the Math DSL, you are also learning GLSL.
+
+----
 
 = Features =
 
@@ -10,6 +13,8 @@ Simplex3d Math DSL behaves like GLSL and has the same set of functions. If you a
   * *A large set of standard functions.*
   * *Quaternions.*
   * *Easy to use 2d and 3d transformation matrices.*
+
+----
 
 = Snippets =
 
@@ -80,6 +85,8 @@ Simplex3d Math DSL behaves like GLSL and has the same set of functions. If you a
     // 2d transformations.
     val r = Mat2x3 translate(Vec2(2, 5)) scale(Vec2(1, 2)) rotate(radians(90))
 }}}
+
+----
 
 = Example =
 {{{
