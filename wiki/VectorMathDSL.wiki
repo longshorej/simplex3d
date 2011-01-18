@@ -14,6 +14,28 @@ Simplex3d Math DSL behaves like GLSL and has the same set of functions. If you a
   * *Easy to use 2d and 3d transformation matrices.*
 
 
+= Example =
+{{{
+import simplex3d.math._
+import simplex3d.math.float._
+import simplex3d.math.float.functions._
+
+
+object MathExample {
+
+  // How to make a model-view matrix and transform a point.
+  def main(args: Array[String]) {
+    val p = Vec3(1, 5, 1)
+    val model = Mat3x4 scale(Vec3(1, 1, 3)) rotateZ(radians(45)) translate(Vec3(10, 5, 10))
+    val view = inverse(Mat3x4 rotateX(radians(30)) translate(Vec3(0, 0, -50)))
+    val modelView = model concat view
+    val transformed = modelView.transformPoint(p)
+    println(transformed)
+  }
+}
+}}}
+
+
 = Snippets =
 
 *Concise syntax:*
@@ -82,26 +104,4 @@ Simplex3d Math DSL behaves like GLSL and has the same set of functions. If you a
 
     // 2d transformations.
     val r = Mat2x3 translate(Vec2(2, 5)) scale(Vec2(1, 2)) rotate(radians(90))
-}}}
-
-
-= Example =
-{{{
-import simplex3d.math._
-import simplex3d.math.float._
-import simplex3d.math.float.functions._
-
-
-object MathExample {
-
-  // How to make a model-view matrix and transform a point.
-  def main(args: Array[String]) {
-    val p = Vec3(1, 5, 1)
-    val model = Mat3x4 scale(Vec3(1, 1, 3)) rotateZ(radians(45)) translate(Vec3(10, 5, 10))
-    val view = inverse(Mat3x4 rotateX(radians(30)) translate(Vec3(0, 0, -50)))
-    val modelView = model concat view
-    val transformed = modelView.transformPoint(p)
-    println(transformed)
-  }
-}
 }}}
