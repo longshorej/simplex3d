@@ -67,7 +67,7 @@ object DataExample {
     println(interleavedVertex(0))
 
     // Raw buffer contains the data from all the interleaved buffers.
-    // You can pass it to OpenGL or other native API.
+    // You can pass it to OpenGL or another native API.
     val bytes = interleavedVertex.rawBuffer
   }
 }
