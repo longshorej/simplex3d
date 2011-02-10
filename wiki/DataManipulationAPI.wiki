@@ -32,8 +32,8 @@ object DataExample {
   def main(args: Array[String]) {
     val size = 10
 
-    // Read as Vec3, the backing store is an array of half floats.
-    val vertex = DataArray[Vec3, HFloat](size)
+    // Read as Vec3, the backing store is an array of floats.
+    val vertex = DataArray[Vec3, RFloat](size)
 
     // Read as Vec3, the backing store is an array of signed shorts.
     val normal = DataArray[Vec3, SShort](size)
@@ -51,7 +51,7 @@ object DataExample {
       color(i) = Vec4(r, r, r, 1)
     }
 
-    // interleave the arrays into one buffer
+    // interleave the arrays into one byte buffer
     val (
       interleavedVertex,
       interleavedNormal,
@@ -61,6 +61,14 @@ object DataExample {
       normal,
       color
     )(vertex.size)
+
+    // You can read from and write into interleaved buffers as usual!
+    interleavedVertex(0) = Vec3.Zero
+    println(interleavedVertex(0))
+
+    // Raw buffer contains the data from all the interleaved buffers.
+    // You can pass it to OpenGL or other native API.
+    val bytes = interleavedVertex.rawBuffer
   }
 }
 }}}
