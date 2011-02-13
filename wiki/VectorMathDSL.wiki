@@ -101,7 +101,7 @@ object MathExample {
 
     // 3d transformations.
     var t = Mat3x4 rotateX(radians(20)) scale(3) translate(Vec3(0, 10, 0))
-    t = t rotate(angle1, axis1) rotate(q1) concatenate(m1)
+    t = t rotateX(angle1) rotate(q1) concat(m1)
 
     // 2d transformations.
     val r = Mat2x3 translate(Vec2(2, 5)) scale(Vec2(1, 2)) rotate(radians(90))
