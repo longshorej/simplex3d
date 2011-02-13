@@ -114,7 +114,7 @@ object DataExample {
     val color = DataArray[Vec4, UByte](10)
 
     var i = 0; while (i < color.size) {
-      val gradient = float(i + 1)/color.size
+      val gradient = (i + 1).toFloat/color.size
 
       // A float vector representing an RGBA color is stored
       // as 4 bytes which contain RGBA components, one per byte.
