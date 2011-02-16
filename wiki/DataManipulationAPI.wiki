@@ -25,6 +25,16 @@ import simplex3d.math.double.functions._
 import simplex3d.data._
 import simplex3d.data.double._
 
+/*
+// Alternative imports to use float instead of double.
+import simplex3d.math._
+import simplex3d.math.float._
+import simplex3d.math.float.functions._
+
+import simplex3d.data._
+import simplex3d.data.float._
+*/
+
 
 object DataExample {
 
