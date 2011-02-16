@@ -19,11 +19,11 @@ Simplex3d Data API is designed to simplify access to raw numerical data that def
 
 {{{
 import simplex3d.math._
-import simplex3d.math.float._
-import simplex3d.math.float.functions._
+import simplex3d.math.double._
+import simplex3d.math.double.functions._
 
 import simplex3d.data._
-import simplex3d.data.float._
+import simplex3d.data.double._
 
 
 object DataExample {
@@ -44,7 +44,7 @@ object DataExample {
 
     // Fill arrays with some random data.
     val random = new java.util.Random(1)
-    def r = random.nextFloat
+    def r = random.nextDouble
     for (i <- 0 until size) {
       vertex(i) = Vec3(r, r, r)*10
       normal(i) = normalize(Vec3(r, r, r))
