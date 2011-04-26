@@ -125,7 +125,7 @@ object DataExample {
       val gradient = (i + 1).toDouble/color.size
 
       // A double vector representing an RGBA color is stored
-      // as 4 bytes which contain RGBA components, one per byte.
+      // as 4 bytes that contain RGBA components, one per byte.
       color(i) = Vec4(gradient, gradient, 0, 1)
 
       i += 1
@@ -170,7 +170,7 @@ object DataExample {
       println("No abnormal floating point values found.")
     }
 
-    // transformed is IndexedSeq[Vec3]
+    // transformed is IndexedSeq[ConstVec3]
     val transformed =
       // Iterating using scala for-comprehension:
       for (vertex <- vertices) yield {
