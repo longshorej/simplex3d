@@ -2,14 +2,6 @@
 <project version="4">
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
-    <buildFile url="file://$PROJECT_DIR$/Simplex3dBuffer/build.xml">
-      <additionalClassPath />
-      <antReference projectDefault="true" />
-      <customJdkName value="" />
-      <maximumHeapSize value="128" />
-      <maximumStackSize value="2" />
-      <properties />
-    </buildFile>
     <buildFile url="file://$PROJECT_DIR$/Simplex3dMath/build.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
@@ -189,10 +181,9 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Simplex3dBuffer/Simplex3dBuffer.iml" filepath="$PROJECT_DIR$/Simplex3dBuffer/Simplex3dBuffer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Simplex3dBufferTest/Simplex3dBufferTest.iml" filepath="$PROJECT_DIR$/Simplex3dBufferTest/Simplex3dBufferTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Simplex3dData/Simplex3dData.iml" filepath="$PROJECT_DIR$/Simplex3dData/Simplex3dData.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Simplex3dDataTest/Simplex3dDataTest.iml" filepath="$PROJECT_DIR$/Simplex3dDataTest/Simplex3dDataTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/Simplex3dMath/Simplex3dMath.iml" filepath="$PROJECT_DIR$/Simplex3dMath/Simplex3dMath.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Simplex3dMathTest/Simplex3dMathTest.iml" filepath="$PROJECT_DIR$/Simplex3dMathTest/Simplex3dMathTest.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
@@ -201,72 +192,6 @@
   <component name="SvnBranchConfigurationManager">
     <option name="myConfigurationMap">
       <map>
-        <entry key="$PROJECT_DIR$/Simplex3dBuffer">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://simplex3d.googlecode.com/svn/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://simplex3d.googlecode.com/svn/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://simplex3d.googlecode.com/svn/wiki">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="branchUrls">
-                <list>
-                  <option value="https://simplex3d.googlecode.com/svn/branches" />
-                  <option value="https://simplex3d.googlecode.com/svn/tags" />
-                  <option value="https://simplex3d.googlecode.com/svn/wiki" />
-                </list>
-              </option>
-              <option name="trunkUrl" value="https://simplex3d.googlecode.com/svn/trunk" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/Simplex3dBufferTest">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://simplex3d.googlecode.com/svn/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://simplex3d.googlecode.com/svn/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://simplex3d.googlecode.com/svn/wiki">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="branchUrls">
-                <list>
-                  <option value="https://simplex3d.googlecode.com/svn/branches" />
-                  <option value="https://simplex3d.googlecode.com/svn/tags" />
-                  <option value="https://simplex3d.googlecode.com/svn/wiki" />
-                </list>
-              </option>
-              <option name="trunkUrl" value="https://simplex3d.googlecode.com/svn/trunk" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/Simplex3dMath">
           <value>
             <SvnBranchConfiguration>
