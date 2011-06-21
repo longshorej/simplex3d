@@ -185,8 +185,8 @@ object DataExample {
 {{{
     // Sending buffer data with JOGL:
     gl.glBufferData(
-      GL_ARRAY_BUFFER, vertices.byteSize,
-      vertices.rawBuffer, GL_DYNAMIC_DRAW
+      GL_ARRAY_BUFFER, vertices.byteCapacity,
+      vertices.bindingBuffer, GL_DYNAMIC_DRAW
     )
 
     // Defining a vertex pointer with JOGL:
@@ -195,3 +195,8 @@ object DataExample {
       vertices.byteStride, vertices.byteOffset
     )
 }}}
+
+
+= Tutorials =
+
+Tutorials can be found [http://www.simplex3d.org/project/tutorials/ here].
