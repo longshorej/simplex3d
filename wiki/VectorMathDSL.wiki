@@ -12,7 +12,6 @@ Simplex3d Math DSL resembles GLSL and has the same set of functions. If you are 
   * *A large set of standard functions.*
   * *Quaternions.*
   * *Easy to use 2d and 3d transformation matrices.*
-  * *Noise functions backed by a simplex noise implementation.*
 
 
 = Example =
