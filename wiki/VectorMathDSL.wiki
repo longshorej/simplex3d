@@ -108,7 +108,7 @@ object MathExample {
     t = t rotateX(angle1) rotate(q1) concat(m1)
 
     // 2d transformations.
-    val r = Mat2x3 translate(Vec2(2, 5)) scale(Vec2(1, 2)) rotate(radians(90))
+    val r = Mat3x2 translate(Vec2(2, 5)) scale(Vec2(1, 2)) rotate(radians(90))
 }}}
 
 
