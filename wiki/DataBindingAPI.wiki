@@ -163,7 +163,7 @@ object DataExample {
 *Integration with scala.collection:*
 {{{
     // A sample transformation.
-    val t = Mat3x4 scale(2) rotateX(radians(30)) translate(Vec3(4, 0, 1))
+    val t = Mat4x3 scale(2) rotateX(radians(30)) translate(Vec3(4, 0, 1))
 
     // Checks if vertices have nan or inf values using forall()
     if (vertices.forall(!hasErrors(_))) {
